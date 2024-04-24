@@ -4,7 +4,7 @@ import Header from "../components/Header";
 
 const Home = () => {
   return (
-    <div className="bg-primary h-screen">
+    <div className="bg-primary h-screen px-4 py-2">
         <Header />
     </div>
   );

@@ -1,38 +1,52 @@
 const express = require('express');
 const fs = require('fs');
-const csv = require('csv-parser');
+
 const app = express();
-const filePath = './data/random_data_dashboard_all.json';
+const dataPath = './data/random_data_dashboard_all_v3.json';
 const cors = require('cors');
 app.use(cors());
 
-function countObjects(jsonData) {
-    try {
-        const data = JSON.parse(jsonData);
-        const count = Array.isArray(data) ? data.length : 0;
-        return count;
-    } catch (error) {
-        console.error("Erreur lors de l'analyse du JSON :", error);
-        return -1; 
+
+
+function countObjectsWithEndDate() {
+  // Lire le contenu du fichier data.json
+  const jsonData = fs.readFileSync(dataPath, 'utf8');
+
+  // Convertir la chaîne JSON en objet JavaScript
+  const data = JSON.parse(jsonData);
+  
+  // Initialiser les compteurs
+  let totalCount = 0;
+  let nullEndDateCount = 0;
+
+  // Parcourir chaque clé dans l'objet JSON
+  for (const key in data) {
+    // Incrémenter le compteur total
+    totalCount++;
+
+    // Vérifier si l'objet a "end_date" nulle
+    if (data[key].end_date === null) {
+      // Incrémenter le compteur des objets avec "end_date" nulle
+      nullEndDateCount++;
     }
+  }
+
+  const countWithEndDateNotNull = totalCount - nullEndDateCount;
+
+  // Retourner le résultat
+  return {
+    totalObjects: totalCount,
+    objectsWithEndDateNotNull: countWithEndDateNotNull,
+    objectsWithEndDateNull: nullEndDateCount
+  };
 }
 
-app.get('/api/data', (req, res) => {
-    let nombreDeLignes = 0; // Initialisation du compteur de lignes
+app.get('/api/nombre_personnes', (req, res) => {
   
-    // Lire le fichier CSV
-    fs.createReadStream('./data/scenario1.csv')
-      .pipe(csv())
-      .on('data', () => {
-        // Incrémenter le compteur de lignes pour chaque ligne lue
-        nombreDeLignes++;
-      })
-      .on('end', () => {
-        // Envoyer la réponse avec le nombre de lignes dans le fichier CSV
-        res.json({ nombreDeLignes }); // Envoyer le nombre de lignes dans la réponse JSON
-      });
-  });
-  
+  const result = countObjectsWithEndDate();
+  console.log("Résultat du comptage des objets : ", result);
+  res.json(result);
+});
 
 app.listen(3001, () => {
     console.log('Server is running on port 3001');
