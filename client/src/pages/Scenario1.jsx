@@ -59,9 +59,11 @@ const Scenario1 = () => {
               Nombre de départ :
             </h1>
 
-            <p className="text-7xl text-depart-200 font-extrabold flex justify-center p-4  ">
-              aa
-            </p>
+            {data && (
+                <p className="text-7xl text-depart-200 font-extrabold flex justify-center p-4">
+                  {data.objectsWithEndDateNull}
+                </p>
+            )}
 
             <div className="flex justify-end">
               <svg
@@ -86,8 +88,8 @@ const Scenario1 = () => {
               Nombre d'employé :
             </h1>
             {data && (
-                <p className="text-7xl text-depart-200 font-extrabold flex justify-center p-4">
-                  {data.objectsWithEndDateNull}
+                <p className="text-7xl text-employe-200 font-extrabold flex justify-center p-4">
+                  {data.objectsWithEndDateNotNull}
                 </p>
             )}
 
