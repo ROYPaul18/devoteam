@@ -8,7 +8,7 @@ const GenderSelected = () => {
         <button onClick={() => setGender("homme")}>
           <img src="Male.png" draggable={false} />
         </button>
-        <div className="text-5xl">|</div>
+        <div className="text-5xl h-full">|</div>
         <button
           className="cursor-pointer"
           onClick={() => setGender("femme")}

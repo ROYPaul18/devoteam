@@ -1,7 +1,0 @@
-n° employé;start_date;end_date;gender;location;entry_age;os_departement;salary;job
-120255;13/03/2022;NaN;NaN;NaN;45-49;D95;68000;dev_front
-2789;02/02/2022;04/22/2022;Male;L1;20-24;D56;50000;dev_soft
-4094;05/02/2022;NaN;Male;NaN;25-29;D35;60000;dev_back
-7019;11/09/2020;08/12/2023;Female;NaN;20-24;D106;64000;dev_py
-112150;02/10/2020;13/04/2024;Female;L8;55-59;D12;58000;data_sc
-6550;11/03/2014;11/01/2023;Female;L8;40-44;D45;46000;data_eng

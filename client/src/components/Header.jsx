@@ -49,7 +49,6 @@ const Header = () => {
           value={scenarioPath}
           onChange={handleScenarioChange}
           className="text-secondary text-3xl font-black bg-transparent">
-          <option value="/">Home</option>
           <option value="/scenario_un">Taux d'attrition </option>
           <option value="/scenario_deux">Employés à risques</option>
           <option value="/scenario_trois">Levier à activer</option>
