@@ -19,6 +19,10 @@ const LineGraph = ({ labels, datasets }) => {
           ticks: {
             fontColor: '#fff',
           },
+          gridLines: {
+            display:false
+        }
+
         },
       ],
       yAxes: [
@@ -26,6 +30,9 @@ const LineGraph = ({ labels, datasets }) => {
           ticks: {
             fontColor: '#fff',
           },
+          gridLines: {
+            display:false
+        }
         },
       ],
     },

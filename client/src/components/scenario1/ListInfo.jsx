@@ -92,7 +92,7 @@ const ListInfo = () => {
 
       <div className="bg-employe-100 w-56 2xl:w-60 h-1/3 2xl:h-48 rounded-3xl p-3 shadow-md hover:shadow-xl flex-cols justify-between md:h-36">
         <h1 className="text-employe-200 font-extrabold mb-3">
-          Nombre d'employés
+          Nombre d'employés :
         </h1>
         {data && (
           <p className="text-7xl text-employe-200 font-extrabold flex justify-center p-4">

@@ -16,6 +16,19 @@ const BarChart = ({ data, options }) => {
             display: true,
           },
         },
+        scales: {
+          y: [{
+            grid: {
+            drawOnChartArea: false
+            }
+          }],
+          x: [{
+            grid: {
+            drawOnChartArea: false,
+            
+            }
+          }],
+        }
     }
     });
 

@@ -10,9 +10,10 @@ export default {
         primary:'#E9F0F5',
         secondary:'#F6485A',
         tertiary:'#AE324B',
-        
-        purpleRed:'#AE324B',
-
+        purpleRed:{
+          100:'#CF3856',
+          200:'#AE324B',
+        },
         attrition: {
           100: "#FFE1E1",
           200: "#FF4A4A",

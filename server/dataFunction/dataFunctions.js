@@ -1,10 +1,11 @@
 const fs = require('fs');
 const dataPath = './data/random_data_dashboard_all_v3.json';
+const locationPath ='../data/map_location.json';
+const departementPath = '../data/map_departement.json'
+
 
 const jsonData = fs.readFileSync(dataPath, 'utf8');
 const data = JSON.parse(jsonData);
-
-
 
 function countObjectsWithEndDate() {
   let nombreTotalEmploye = 0;
@@ -75,28 +76,6 @@ function calcAttritionFemale(femaleCount, femaleEndDateCount) {
   return tauxAttritionFemale;
 }
 
-function translateLocations(dataArray, locations) {
-  return dataArray.map((dataItem) => {
-    const newDataItem = { ...dataItem };
-
-    if (newDataItem.location && Object.keys(locations).includes(newDataItem.location)) {
-      const newLocation = Object.values(locations).find(
-        (value) => Object.keys(locations).find((key) => locations[key] === value) === newDataItem.location
-      );
-      newDataItem.location = newLocation;
-    }
-
-    return newDataItem;
-  });
-}
-
-function getLastFiveEndDates() {
-  const endDates = Object.values(data).filter(item => item.end_date !== null);
-  endDates.sort((a, b) => new Date(b.end_date) - new Date(a.end_date));
-  return endDates.slice(0, 5);
-}
-
-
 function getLastFiveEndDates() {
   const rawData = fs.readFileSync(dataPath);
   const data = JSON.parse(rawData);
@@ -106,5 +85,29 @@ function getLastFiveEndDates() {
 }
 
 
+function translateLocation(data, locationDict) {
+  for (const id in data) {
+    const info = data[id];
 
-module.exports = { countObjectsWithEndDate, calcAttrition, countGenders, calcAttritionMale, calcAttritionFemale, getLastFiveEndDates };
+    if (info.location !== null && locationDict[info.location]) {
+      info.location = locationDict[info.location];
+    }
+  }
+
+  return data;
+}
+
+function translateOsDepartment(data, osDepartmentDict) {
+  for (const id in data) {
+    const info = data[id];
+
+    if (info.os_departement !== null && osDepartmentDict[info.os_departement]) {
+      info.os_departement = osDepartmentDict[info.os_departement];
+    }
+  }
+
+  return data;
+}
+
+
+module.exports = { countObjectsWithEndDate, calcAttrition, countGenders, calcAttritionMale, calcAttritionFemale, getLastFiveEndDates,  };
