@@ -2,7 +2,7 @@ import { useState, React } from 'react';
 const GenderSelected = () => {
     const [gender, setGender] = useState(null);
   return (
-    <div className="bg-white text-secondary  h-28 rounded-xl p-2 flex items-center justify-between w-68 xl:w-52 lg:52 shadow-xl">
+    <div className="bg-white text-secondary h-28 rounded-xl flex items-center justify-between w-68 xl:w-52 lg:52 shadow-xl">
     {gender === null && (
       <div className="flex items-center gap-8 w-54 xl:w-54 mx-auto">
         <button onClick={() => setGender("homme")}>

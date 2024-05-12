@@ -9,7 +9,7 @@ import LineGraph from "../components/scenario1/graph/LineGraph";
 import AttrCountryGraph from "../components/scenario1/graph/AttrCountryGraph";
 import AttrJobGraph from "../components/scenario1/graph/AttrJobGraph";
 import AttrByWeMoTriYe from "../components/scenario1/graph/AttrByWeMoTriYe";
-import AttrGenderGraph from "../components/scenario1/graph/AttrGenderGraph";
+// import AttrGenderGraph from "../components/scenario1/graph/AttrGenderGraph";
 import AttrAgeGraph from "../components/scenario1/graph/AttrAgeGraph";
 
 const Scenario1 = () => {
@@ -26,7 +26,6 @@ const Scenario1 = () => {
   const handleModalClose = () => {
     setIsModalOpen(false);
   };
-
   return (
     <div className="bg-primary">
       <div className="px-16 lg:px-8 py-2 gap-20 md:gap-1 min-h-screen">
@@ -61,7 +60,7 @@ const Scenario1 = () => {
                   {" "}
                   Taux d’attrition/Genre
                 </h1>
-                <AttrGenderGraph />
+                {/* <AttrGenderGraph /> */}
               </div>
               <ChartModal
                 isOpen={isModalOpen}

@@ -1,7 +1,13 @@
+const express = require('express');
+const app = express();
+const endpoint = require('./endPoint/endPoint');
 
-const app = require('./endPoint/endPoint');
+app.use(express.json());
 
-const PORT = process.env.PORT || 3001;
+app.use('/', endpoint);
+
+const PORT = process.env.PORT || 3000;
+
 app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+  console.log(`Serveur en cours d'exécution sur le port ${PORT}`);
 });

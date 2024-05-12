@@ -6,6 +6,7 @@ import DateRangeComp from "./DateRangeComp";
 import GenderSelected from "./GenderSelected";
 import axios from "axios";
 import CountrySelect from "./CountrySelect";
+import getCountries  from "./utils/getCountries";
 
 const FilterOption = () => {
   const [ageRange, setAgeRange] = useState([18, 65]);
@@ -13,30 +14,39 @@ const FilterOption = () => {
   const [countries, setCountries] = useState([]);
   const [selectedCountry, setSelectedCountry] = useState("");
 
-  useEffect(() => {
-    fetchCountries();
-  }, []);
   const fetchCountries = async () => {
-    const response = await axios.get("https://restcountries.com/v3.1/all");
-    setCountries(response.data);
+    const filteredCountries = await getCountries();
+    setCountries(filteredCountries);
   };
+
+  
   const handleCountrySelect = (country) => {
     setSelectedCountry(country);
   };
 
+  useEffect(() => {
+    fetchCountries();
+  }, []);
+
   const handleAgeChange = (event, newValue) => {
     setAgeRange(newValue);
   };
+
+
+
   return (
     <nav className="flex items-center justify-center gap-16 xl:gap-8 mt-4">
       <div className="bg-white text-secondary md:w-full lg:w-3/4 xl:w-80 h-28 rounded-xl p-2 flex items-center justify-center shadow-md flex-col">
-        <p className="font-bold">Tranche de date :</p>
         <DateRangeComp />
       </div>
-      <div className="bg-white text-secondary w-80 xl:w-68 lg:w-68 h-28 rounded-xl p-2 shadow-xl flex items-center justify-center flex-col">
-        <p className="font-bold">Par pays:</p>
-        <CountrySelect countries={countries} onSelect={handleCountrySelect} />
-        {selectedCountry && <p>Selected country: {selectedCountry}</p>}
+      <div className="bg-white text-secondary w-80 xl:w-68 lg:w-68 h-28 rounded-xl p-2 shadow-xl">
+      <CountrySelect countries={countries} onCountrySelect={handleCountrySelect}/>
+      {selectedCountry && (
+        <div>
+          <h2>{selectedCountry.name.common}</h2>
+          <p>{selectedCountry.capital}</p>
+        </div>
+      )}
       </div>
       <div className="bg-white text-secondary w-80 xl:w-68 lg:68 h-28 rounded-xl p-2 flex-cols justify-center shadow-xl">
         <div className="flex-col justify-center w-auto ">

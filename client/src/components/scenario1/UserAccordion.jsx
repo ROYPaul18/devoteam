@@ -4,7 +4,7 @@ const UserAccordion = ({user}) => {
   const [accordionOpen, setAccordionOpen] = useState(false);
 
   return (
-    <li className="p-6 border-solid solid border-b-2 border-secondary">
+    <div className="p-6 border-solid solid border-b-2 border-secondary">
       <div className="flex justify-between ">
        
         <div onClick={() => setAccordionOpen(!accordionOpen)}className="flex-cols ">
@@ -39,7 +39,7 @@ const UserAccordion = ({user}) => {
           <p>. Salaire : {user.salary ? user.salary : "Inconnu"} €</p>
         </li>
       </div>
-    </li>
+    </div>
   );
 };
 

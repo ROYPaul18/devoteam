@@ -7,7 +7,7 @@ function LastFiveUsers() {
   useEffect(() => {
     async function fetchData() {
       const response = await fetch(
-        "http://localhost:3001/api/nombre_personnes"
+        "http://localhost:3000/api/last_five_end_dates"
       );
       const data = await response.json();
       setLastFiveUsers(data.lastFiveEndDates);
