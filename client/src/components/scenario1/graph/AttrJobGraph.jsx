@@ -36,7 +36,7 @@ const options = {
 };
 
 const AttrJobGraph = () => (
-  <div>
+  <div style={{ width: "auto", height: "30vh"}}>
     <Bar data={data} options={options} />
   </div>
 );

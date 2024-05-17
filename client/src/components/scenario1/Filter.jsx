@@ -1,11 +1,21 @@
 import React from 'react'
 import Header from '../Header'
 import FilterOption from './FilterOption'
+import { useState } from 'react'
 const Filter = () => {
+
+  const [filters, setFilters] = useState({});
+  const onFilterChange = (filterName, filterValue) => {
+    setFilters(prevFilters => ({
+      ...prevFilters,
+      [filterName]: filterValue
+    }));
+  };
+
   return (
     <div className='flex h-20vh'>
       <Header />
-      <FilterOption />
+      <FilterOption onFilterChange={onFilterChange}/>
     </div>
   )
 }

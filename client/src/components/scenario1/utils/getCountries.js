@@ -34,7 +34,7 @@ const getCountries = async () => {
   };
 
   const countries = response.data.map((country) => ({
-    cca2: country.cca2, // utiliser la propriété cca2 au lieu de cca3
+    cca2: country.cca2, 
     name: {
       common: country.name.common,
     },
@@ -44,9 +44,8 @@ const getCountries = async () => {
     },
   }));
   
-  const filteredCountries = countries.filter(country => jsonCountries.hasOwnProperty(country.cca2)); // utiliser la propriété cca2 au lieu de cca3
-  
-  console.log(filteredCountries);
+  const filteredCountries = countries.filter(country => jsonCountries.hasOwnProperty(country.cca2));
+  console.log(filteredCountries)
   return filteredCountries;
   
 };

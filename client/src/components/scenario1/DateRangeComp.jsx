@@ -27,7 +27,6 @@ const DateRangeComp = () => {
   }, [])
  
   const hideOnEscape = (e) => {
-    // console.log(e.key)s
     if( e.key === "Escape" ) {
       setOpen(false)
     }
@@ -41,11 +40,10 @@ const DateRangeComp = () => {
 
   return (
     <div className="calendarWrap">
-
       <input
         value={`${format(range[0].startDate, "MM/dd/yyyy")} to ${format(range[0].endDate, "MM/dd/yyyy")}`}
         readOnly
-        className="inputBox"
+        className="font-bold text-xl px-8 py-4 bg-secondary text-white w-full"
         onClick={ () => setOpen(open => !open) }
       />
       <div ref={refOne}>
@@ -57,13 +55,12 @@ const DateRangeComp = () => {
             ranges={range}
             months={1}
             direction="horizontal"
-            className="calendarElement"
+            className="calendarElement w-full"
             rangeColors={['#f33e5b', '#3ecf8e', '#fed14c']}
             
           />
         }
       </div>
-
     </div>
   )
 }

@@ -32,11 +32,9 @@ const UserAccordion = ({user}) => {
         }`}
       >
         <li className="overflow-hidden text-md">
-          <p>. Location : {user.location ? user.location : "Inconnu"} </p>
-          <p>
-             . Âge à l'entrée : {user.entry_age ? user.entry_age : "Inconnu"}{" "}
-          </p>
-          <p>. Salaire : {user.salary ? user.salary : "Inconnu"} €</p>
+          <p> - Location : {user.location ? user.location : "Inconnu"} </p>
+          <p> - Âge à l'entrée : {user.entry_age ? user.entry_age : "Inconnu"} </p>
+          <p> - Salaire : {user.salary ? user.salary : "Inconnu"} €</p>
         </li>
       </div>
     </div>

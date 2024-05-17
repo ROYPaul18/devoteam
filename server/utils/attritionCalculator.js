@@ -13,17 +13,18 @@ const { maleCount, femaleCount, maleEndDateCount, femaleEndDateCount } = countGe
 console.log(calcAttritionFemale(femaleCount, femaleEndDateCount), calcAttritionMale(maleCount, maleEndDateCount));
 
 function calcAttrition(nombreTotalEmploye, countWithEndDateNotNull) {
-    const tauxAttrition = (countWithEndDateNotNull / nombreTotalEmploye).toFixed(2);
+    const tauxAttrition = (countWithEndDateNotNull / nombreTotalEmploye).toFixed(2) * 100;
     return tauxAttrition;
   }
   
 function calcAttritionMale(maleCount, maleEndDateCount) {
-    const tauxAttritionMale = (maleEndDateCount / maleCount).toFixed(2);
+    const tauxAttritionMale = (maleEndDateCount / maleCount).toFixed(2) * 100;
     return tauxAttritionMale;
   }
   
 function calcAttritionFemale(femaleCount, femaleEndDateCount) {
-    const tauxAttritionFemale = (femaleEndDateCount / femaleCount).toFixed(2);
+    const tauxAttritionFemale = (femaleEndDateCount / femaleCount).toFixed(2) * 100;
     return tauxAttritionFemale;
   }
+  
 module.exports = { calcAttrition, calcAttritionMale, calcAttritionFemale, translatedData };
