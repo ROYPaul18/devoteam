@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 
 function getUniqueEntryAges() {
-  const filePath = path.join(__dirname, '../data/random_data_dashboard_all_v3.json');
+  const filePath = path.join(__dirname, '../data/data_v4.json');
   const rawData = fs.readFileSync(filePath, 'utf8');
   const data = JSON.parse(rawData);
 
@@ -26,7 +26,6 @@ function getUniqueEntryAges() {
 
     return aNum - bNum;
   });
-  console.log(uniqueEntryAges)
   return uniqueEntryAges;
 }
 

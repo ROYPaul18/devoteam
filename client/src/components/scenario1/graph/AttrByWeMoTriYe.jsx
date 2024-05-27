@@ -236,9 +236,6 @@ const AttrByWeMoTriYe = () => {
             },
             scales: {
               y: {
-                grid: {
-                  drawOnChartArea: false,
-                },
                 min: 0,
                 max: 1,
               },
@@ -298,7 +295,7 @@ const AttrByWeMoTriYe = () => {
           <option value="2019">2019</option>
         </select>
       </div>
-      <canvas ref={chartRef} onClick={handleGraphClick} />
+      <canvas ref={chartRef} onClick={handleGraphClick}  className="cursor-pointer"/>
       {showModal && (
         <>
           <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
@@ -341,7 +338,7 @@ const AttrByWeMoTriYe = () => {
                 {/* footer */}
                 <div className="flex items-center justify-end p-2 border-t border-solid border-slate-200 rounded-b">
                   <button
-                    className="text-white bg-secondary rounded-full font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                    className="text-white bg-secondary rounded-full font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150 hover:bg-tertiary"
                     type="button"
                     onClick={handleModalClose}
                   >

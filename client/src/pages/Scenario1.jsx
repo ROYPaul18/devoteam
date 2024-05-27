@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Filter from "./../components/scenario1/Filter";
 import ListInfo from "../components/scenario1/ListInfo";
 import BarChart from "../components/scenario1/graph/BarChart";
@@ -8,10 +8,13 @@ import LineGraph from "../components/scenario1/graph/LineGraph";
 import AttrCountryGraph from "../components/scenario1/graph/AttrCountryGraph";
 import AttrJobGraph from "../components/scenario1/graph/AttrJobGraph";
 import AttrByWeMoTriYe from "../components/scenario1/graph/AttrByWeMoTriYe";
-import AttrAgeGraph from "../components/scenario1/graph/AttrAgeGraph";
+import AgeGroupBarChart from "../components/scenario1/graph/AgeGroupBarChart";
 import AttrGenderGraph from "../components/scenario1/graph/AttrGenderGraph";
 
+
 const Scenario1 = () => {
+
+  const [filteredData, setFilteredData] = useState([]);
   const [selectedChartData, setSelectedChartData] = useState(null);
   const [selectedChartOptions, setSelectedChartOptions] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -32,7 +35,7 @@ const Scenario1 = () => {
   };
 
   return (
-    <div className="bg-primary">
+    <div className="bg-primary ">
       <div className="px-16 lg:px-8 py-2 gap-20 md:gap-1 min-h-screen">
         <div className="">
           <Filter onGenderSelect={handleGenderSelect} selectedGender={selectedGender} />
@@ -62,13 +65,13 @@ const Scenario1 = () => {
                 <h1 className="text-secondary text-xl">
                   Taux d’attrition/âge
                 </h1>
-                {/* <AttrAgeGraph onClick={() => handleChartClick(ageData, ageOptions)} /> */}
+                <AgeGroupBarChart onClick={() => handleChartClick(jobData, jobOptions)} />
               </div>
               <div className="bg-white h-1/3 rounded-3xl flex-cols items-center justify-center font-black shadow-xl p-4">
                 <h1 className="text-secondary text-xl mb-8">
                   Taux d’attrition/job
                 </h1>
-                <AttrJobGraph onClick={() => handleChartClick(jobData, jobOptions)} />
+                {/* <AgeGroupBarChart onClick={() => handleChartClick(jobData, jobOptions)} /> */}
               </div>
             </div>
             <div className="bg-white rounded-3xl w-1/4 h-full font-black shadow-xl p-8">

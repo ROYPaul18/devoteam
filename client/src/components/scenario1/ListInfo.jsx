@@ -9,19 +9,8 @@ const ListInfo = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const countObjectsResponse = await fetch('http://localhost:3000/api/count_objects');
-        if (!countObjectsResponse.ok) {
-          throw new Error('Erreur lors de la récupération des données de comptage d\'objets');
-        }
-        const countObjectsData = await countObjectsResponse.json();
-
-        const attritionRateResponse = await axios.get('http://localhost:3000/api/attrition_rate');
-        const attritionRateData = attritionRateResponse.data;
-
-        setData({
-          countObjects: countObjectsData,
-          attritionRate: attritionRateData,
-        });
+        const response = await axios.get('http://localhost:3001/api/count_objects');
+        setData(response.data);
         setLoading(false);
       } catch (error) {
         setError(error);
@@ -39,17 +28,18 @@ const ListInfo = () => {
   if (error) {
     return <div>Erreur: {error.message}</div>;
   }
+
+  const { totalObjects, objectsWithEndDateNotNull, objectsWithEndDateNull, attritionRate } = data;
+
   return (
     <div className="flex flex-col justify-around gap-y-16 lg:gap-y-8 my-2">
       <div className="bg-attrition-100 w-56 2xl:w-60 h-1/3 2xl:h-48 rounded-2xl p-3 shadow-md hover:shadow-xl flex-cols justify-between md:h-36">
         <h1 className="text-attrition-200 font-extrabold mb-3">
           Taux d'attrition :
         </h1>
-        {data.attritionRate && (
-          <p className="text-7xl text-attrition-200 font-extrabold flex justify-center p-4">
-            {data.attritionRate.tauxAttrition}%
-          </p>
-        )}
+        <p className="text-7xl text-attrition-200 font-extrabold flex justify-center p-4">
+          {attritionRate}%
+        </p>
         <div className="flex justify-end">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -72,11 +62,9 @@ const ListInfo = () => {
         <h1 className="text-depart-200 font-extrabold mb-3">
           Nombre de départ :
         </h1>
-        {data.countObjects && (
-          <p className="text-7xl text-depart-200 font-extrabold flex justify-center p-4">
-            {data.countObjects.objectsWithEndDateNull}
-          </p>
-        )}
+        <p className="text-7xl text-depart-200 font-extrabold flex justify-center p-4">
+          {objectsWithEndDateNull}
+        </p>
         <div className="flex justify-end">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -99,11 +87,9 @@ const ListInfo = () => {
         <h1 className="text-employe-200 font-extrabold mb-3">
           Nombre d'employés :
         </h1>
-        {data.countObjects && (
-          <p className="text-7xl text-employe-200 font-extrabold flex justify-center p-4">
-            {data.countObjects.objectsWithEndDateNotNull}
-          </p>
-        )}
+        <p className="text-7xl text-employe-200 font-extrabold flex justify-center p-4">
+          {objectsWithEndDateNotNull}
+        </p>
 
         <div className="flex justify-end">
           <svg

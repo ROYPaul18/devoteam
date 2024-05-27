@@ -25,3 +25,18 @@ input.inputBox {
    .rounded{
     border-radius: 11px;
 }
+
+.checkbox-row input:not(:checked) + label,
+.checkbox-row input:not(:checked) ~ .checkbox-row {
+  opacity: 0.5;
+}
+
+.checkbox-row input:checked + label,
+.checkbox-row input:checked ~ .checkbox-row {
+  opacity: 1;
+}
+
+.checkbox-row input:checked{
+  background-color: #F6485A;
+  color: black;
+}

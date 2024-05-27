@@ -1,7 +1,4 @@
-const { filterData, filteredData } = require('./filterData');
-
-function countObjectsWithEndDate(filters, gender) {
-  console.log(filteredData);
+function countObjectsWithEndDate(filteredData) {
   let nombreTotalEmploye = 0;
   let nullEndDateCount = 0;
 
@@ -21,5 +18,6 @@ function countObjectsWithEndDate(filters, gender) {
     objectsWithEndDateNull: nullEndDateCount
   };
 }
-
-module.exports = { countObjectsWithEndDate };
+module.exports = {
+  countObjectsWithEndDate: countObjectsWithEndDate
+};

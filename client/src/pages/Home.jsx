@@ -6,7 +6,7 @@ const Home = () => {
   return (
     <div className="bg-primary h-screen px-16 lg:px-8 py-2">
       <div className="flex items-center">
-        <img src="Logo.png" alt="" srcset="" />
+        <img src="Logo.png" alt="" srcSet="image-small.jpg 320w, image-medium.jpg 640w, image-large.jpg 1280w"/>
         <h1 className="text-secondary text-5xl font-black"> KPI DASHBOARD</h1>
       </div>
 

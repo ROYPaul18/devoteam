@@ -1,8 +1,9 @@
-import React, { useState, useMemo, useRef, useEffect } from "react";
+import React, { useState, useMemo, useEffect, useRef } from "react";
 import { Bar } from "react-chartjs-2";
 import "chart.js/auto";
 import Chart from "chart.js/auto";
 import getCountries from "../utils/getCountries";
+import axios from "axios";
 
 const AttrCountryGraph = () => {
   const [selectedOption, setSelectedOption] = useState("pays");
@@ -11,20 +12,51 @@ const AttrCountryGraph = () => {
   const [showModal, setShowModal] = useState(false);
   const [filteredCountries, setFilteredCountries] = useState([]);
   const [displayCountries, setDisplayCountries] = useState([]);
+  const [departmentData, setDepartmentData] = useState(null);
 
   const departments = [
-    "Engage - Project & Agility",
-    "Data & AI",
-    "Cloud Native Solutions",
-    "Région Sud-Est Lyon",
-    "MultiCloud (Telecom)",
+    "Département 1",
+    "Département 2",
+    "Département 3",
+    "Département 4",
+    "Département 5",
   ];
+
+  const getCountsByLocation = async () => {
+    const response = await axios.get('/api/count_people_by_location');
+    return response.data;
+  };
+
+  const getAttritionByOsDepartement = async () => {
+    const response = await axios.get('/api/calc_attrition_by_os_departement');
+    return response.data;
+  };
 
   useEffect(() => {
     const fetchData = async () => {
-      const data = await getCountries();
-      setFilteredCountries(data);
-      setDisplayCountries(data.slice(0, 5));
+      const countsByLocation = await getCountsByLocation();
+      const countries = await getCountries();
+      const countriesWithCounts = countries.map(country => ({
+         ...country,
+         count: countsByLocation[country.name.common]?.count || 0,
+         endDateCount: countsByLocation[country.name.common]?.endDateCount || 0,
+      }));
+      setFilteredCountries(countriesWithCounts);
+      setDisplayCountries(countriesWithCounts.slice(0, 5));
+
+      const attritionByOsDepartement = await getAttritionByOsDepartement();
+      setDepartmentData({
+        labels: departments,
+        datasets: [
+          {
+            label: 'Taux d’attrition',
+            data: departments.map(department => attritionByOsDepartement[department] || 0),
+            backgroundColor: "rgba(255, 73, 110, 0.9)",
+            borderColor: "rgba(255, 73, 110, 1)",
+            borderWidth: 1,
+          },
+        ],
+      });
     };
     fetchData();
   }, []);
@@ -33,39 +65,27 @@ const AttrCountryGraph = () => {
     setSelectedOption(event.target.value);
   };
 
-  const generateRandomData = (length) => {
-    return Array.from({ length }, () => Math.random() * 0.9 + 0.1);
-  };
-
   const countryData = useMemo(() => {
     return {
       labels: displayCountries.map((country) => country.name.common),
       datasets: [
         {
-          data: generateRandomData(displayCountries.length),
+          label: 'Nombre total',
+          data: displayCountries.map((country) => country.count),
           backgroundColor: "rgba(255, 73, 110, 0.9)",
           borderColor: "rgba(255, 73, 110, 1)",
+          borderWidth: 1,
+        },
+        {
+          label: 'Nombre avec date de fin',
+          data: displayCountries.map((country) => country.endDateCount),
+          backgroundColor: "rgba(0, 123, 255, 0.9)",
+          borderColor: "rgba(0, 123, 255, 1)",
           borderWidth: 1,
         },
       ],
     };
   }, [displayCountries]);
-
-  const departmentData = useMemo(() => {
-    return {
-      labels: departments,
-      datasets: [
-        {
-          data: generateRandomData(departments.length),
-          backgroundColor: "rgba(255, 73, 110, 0.9)",
-          borderColor: "rgba(255, 73, 110, 1)",
-          borderWidth: 1,
-        },
-      ],
-    };
-  }, [departments]);
-
-  const chartData = selectedOption === "pays" ? countryData : departmentData;
 
   const countryOptions = {
     indexAxis: "y",
@@ -105,7 +125,7 @@ const AttrCountryGraph = () => {
     if (showModal && chartRefModal.current) {
       const chartInstance = new Chart(chartRefModal.current, {
         type: "bar",
-        data: chartData,
+        data: departmentData,
         options: countryOptions,
       });
 
@@ -113,7 +133,7 @@ const AttrCountryGraph = () => {
         chartInstance.destroy();
       };
     }
-  }, [showModal, chartData, countryOptions]);
+  }, [showModal, departmentData, countryOptions]);
 
   const handleModalClose = () => {
     setShowModal(false);
@@ -132,8 +152,8 @@ const AttrCountryGraph = () => {
         <option value="pays">Pays</option>
         <option value="departement">Département</option>
       </select>
-      <Bar data={chartData} options={countryOptions} onClick={handleGraphClick} />
-      {showModal && (
+      <Bar data={countryData} options={countryOptions} onClick={handleGraphClick}  className="cursor-pointer"/>
+        {showModal && (
         <>
           <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
             <div className="relative w-3/4 my-6 mx-auto max-w-7xl h-4/5">
@@ -153,7 +173,7 @@ const AttrCountryGraph = () => {
                 </div>
                 <div className="flex items-center justify-end p-2 border-t border-solid border-slate-00 rounded-b">
                   <button
-                    className="text-white bg-secondary rounded-full font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                    className="text-white bg-secondary rounded-full font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150 hover:bg-tertiary"
                     type="button"
                     onClick={handleModalClose}
                   >

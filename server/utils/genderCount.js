@@ -1,28 +1,18 @@
-const fs = require('fs');
-const { translateData } = require('./translateData');
-
-const dataPath = './data/random_data_dashboard_all_v3.json';
-
-const jsonData = fs.readFileSync(dataPath, 'utf8');
-const data = JSON.parse(jsonData);
-
-const translatedData = translateData(data);
-
-function countGenders() {
+function countGenders(data) {
   let maleCount = 0;
   let femaleCount = 0;
   let maleEndDateCount = 0;
   let femaleEndDateCount = 0;
 
-  for (const key in translatedData) {
-    if (translatedData[key].gender === 'Male') {
+  for (const key in data) {
+    if (data[key].gender === 'Male') {
       maleCount++;
-      if (translatedData[key].end_date !== null) {
+      if (data[key].end_date !== null) {
         maleEndDateCount++;
       }
-    } else if (translatedData[key].gender === 'Female') {
+    } else if (data[key].gender === 'Female') {
       femaleCount++;
-      if (translatedData[key].end_date !== null) {
+       if (data[key].end_date !== null) {
         femaleEndDateCount++;
       }
     }
@@ -34,4 +24,4 @@ function countGenders() {
     femaleEndDateCount,
   };
 }
-module.exports = { countGenders, translatedData };
+module.exports = countGenders;

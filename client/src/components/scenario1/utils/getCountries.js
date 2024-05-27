@@ -45,7 +45,6 @@ const getCountries = async () => {
   }));
   
   const filteredCountries = countries.filter(country => jsonCountries.hasOwnProperty(country.cca2));
-  console.log(filteredCountries)
   return filteredCountries;
   
 };

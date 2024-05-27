@@ -1,21 +1,22 @@
 import React, { useState } from "react";
 
-const CountrySelect = ({ countries, className, onCountrySelect }) => {
+const CountrySelect = ({ countries, className, onCountrySelect, selectedCountry }) => {
   const allCountriesOption = {
     name: { common: "Monde" },
     flags: { svg: "/World.svg" },
   };
 
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedCountry, setSelectedCountry] = useState(allCountriesOption);
+  const [selectedOption, setSelectedOption] = useState(selectedCountry || allCountriesOption);
 
   const handleCountrySelect = (country) => {
-    setSelectedCountry(country);
+    setSelectedOption(country);
     setIsOpen(false);
     onCountrySelect(country);
   };
 
-  const filteredCountries = selectedCountry === allCountriesOption ? countries : [selectedCountry];
+  const filteredCountries =
+    selectedOption === allCountriesOption ? countries : [selectedOption];
 
   return (
     <div className="h-full">
@@ -25,11 +26,13 @@ const CountrySelect = ({ countries, className, onCountrySelect }) => {
       >
         <div className="flex items-center">
           <img
-            src={selectedCountry.flags.svg}
-            alt={selectedCountry.name.common}
+            src={selectedOption.flags.svg}
+            alt={selectedOption.name.common}
             className="w-16 h-16 rounded-full object-cover"
           />
-          <span className="ml-1 text-3xl min-w-[100px]">{selectedCountry.name.common}</span>
+          <span className="ml-1 text-3xl min-w-[100px]">
+            {selectedOption.name.common}
+          </span>
         </div>
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -49,7 +52,7 @@ const CountrySelect = ({ countries, className, onCountrySelect }) => {
       {isOpen && (
         <ul className="absolute z-10 mt-1 bg-white border border-gray-300 rounded-md shadow-lg max-h-60 overflow-y-auto">
           <li
-            key="all"
+            key="all-countries-option"
             className="flex items-center px-2 py-1 cursor-pointer hover w-full"
             onClick={() => handleCountrySelect(allCountriesOption)}
           >
@@ -58,17 +61,19 @@ const CountrySelect = ({ countries, className, onCountrySelect }) => {
               alt={allCountriesOption.name.common}
               className="w-12 h-12 object-cover rounded-full"
             />
-            <span className="ml-1 text-2xl">{allCountriesOption.name.common}</span>
+            <span className="ml-1 text-2xl">
+              {allCountriesOption.name.common}
+            </span>
           </li>
-          {countries.map((country) => (
+          {countries.map((country, index) => (
             <li
-              key={country.cca3}
+              key={country.cca3 || index} // Utilisation de l'index comme clé de secours
               className="flex items-center px-2 py-2 cursor-pointer hover w-full"
               onClick={() => handleCountrySelect(country)}
             >
               <img
                 src={country.flags.svg}
-              
+                alt={country.name.common}
                 className="w-12 h-12 object-cover rounded-full"
               />
               <span className="ml-1 text-2xl">{country.name.common}</span>

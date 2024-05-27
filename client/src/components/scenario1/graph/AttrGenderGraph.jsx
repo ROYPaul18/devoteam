@@ -9,27 +9,26 @@ const AttrGenderGraph = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://localhost:3000/api/attrition_rate_male_female');
-        const { maleCount, femaleCount, maleEndDateCount, femaleEndDateCount } = response.data;
-
+        const response = await axios.get('http://localhost:3001/api/attrition_rate_male_female');
+        const { tauxAttritionMale, tauxAttritionFemale } = response.data;
         setDataGenderChart({
           labels: [""],
           datasets: [
             {
               label: "homme",
-              data: [0.4],
+              data: [tauxAttritionMale],
               backgroundColor: ["rgba(255, 168, 125, 0.7)"],
               borderColor: ["rgba(255, 168, 125, 1)"],
               borderWidth: 1,
             },
             {
               label: "femme",
-              data: [0.3],
+              data: [tauxAttritionFemale],
               backgroundColor: "rgba(96, 175, 94, 0.7)",
               borderColor: "rgba(96, 175, 94, 1)",
               borderWidth: 1,
             },
-          ],
+          ],          
         });
       } catch (error) {
         console.error(error);

@@ -1,12 +1,12 @@
 Pour installer et lancer le projet :
 
-Pour la partie Frontend : 
+Pour la partie Frontend :
 
 - cd /client
 - npm install
 - npm run dev
 
-Pour la partie Backend :
+Pour le serveur :
 
 - cd /server
 - npm install

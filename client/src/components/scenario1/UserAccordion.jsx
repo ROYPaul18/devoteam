@@ -9,10 +9,10 @@ const UserAccordion = ({user}) => {
        
         <div onClick={() => setAccordionOpen(!accordionOpen)}className="flex-cols ">
           <p className="text-purpleRed-200 font-black mr-1 text-xl">
-            {user.id} John Doe 45 ans
+          {user.id ? user.id : "Inconnu"} {user.gender ? user.gender : "Inconnu"}
           </p>
           <p className="text-purpleRed-100 font-bold text-lg">
-            {user.os_departement ? user.os_departement : "Inconnu"}{" "}
+            {user.os_partner ? user.os_partner : "Inconnu"} ({user.os_rank ? user.os_rank  : "Inconnu"}){" "}  
           </p>
         </div>
         <button onClick={() => setAccordionOpen(!accordionOpen)}>
