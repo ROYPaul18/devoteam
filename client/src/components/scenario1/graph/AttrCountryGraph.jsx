@@ -1,177 +1,144 @@
-import React, { useState, useMemo, useEffect, useRef } from "react";
-import { Bar } from "react-chartjs-2";
-import "chart.js/auto";
-import Chart from "chart.js/auto";
-import getCountries from "../utils/getCountries";
-import axios from "axios";
+import React, { useState, useEffect, useRef } from 'react';
+import { Bar } from 'react-chartjs-2';
+import axios from 'axios';
+import locationInverse from '../utils/locationInverse'; // Assurez-vous que le chemin d'importation est correct
 
 const AttrCountryGraph = () => {
-  const [selectedOption, setSelectedOption] = useState("pays");
-  const chartRef = useRef(null);
-  const chartRefModal = useRef(null);
+  const [selectedOption, setSelectedOption] = useState("departement");
+  const [locationData, setLocationData] = useState({ labels: [], datasets: [] });
+  const [departmentData, setDepartmentData] = useState({ labels: [], datasets: [] });
   const [showModal, setShowModal] = useState(false);
-  const [filteredCountries, setFilteredCountries] = useState([]);
-  const [displayCountries, setDisplayCountries] = useState([]);
-  const [departmentData, setDepartmentData] = useState(null);
-
-  const departments = [
-    "Département 1",
-    "Département 2",
-    "Département 3",
-    "Département 4",
-    "Département 5",
-  ];
-
-  const getCountsByLocation = async () => {
-    const response = await axios.get('/api/count_people_by_location');
-    return response.data;
-  };
-
-  const getAttritionByOsDepartement = async () => {
-    const response = await axios.get('/api/calc_attrition_by_os_departement');
-    return response.data;
-  };
+  const chartRefModal = useRef(null);
 
   useEffect(() => {
-    const fetchData = async () => {
-      const countsByLocation = await getCountsByLocation();
-      const countries = await getCountries();
-      const countriesWithCounts = countries.map(country => ({
-         ...country,
-         count: countsByLocation[country.name.common]?.count || 0,
-         endDateCount: countsByLocation[country.name.common]?.endDateCount || 0,
-      }));
-      setFilteredCountries(countriesWithCounts);
-      setDisplayCountries(countriesWithCounts.slice(0, 5));
-
-      const attritionByOsDepartement = await getAttritionByOsDepartement();
-      setDepartmentData({
-        labels: departments,
-        datasets: [
-          {
-            label: 'Taux d’attrition',
-            data: departments.map(department => attritionByOsDepartement[department] || 0),
-            backgroundColor: "rgba(255, 73, 110, 0.9)",
-            borderColor: "rgba(255, 73, 110, 1)",
-            borderWidth: 1,
-          },
-        ],
-      });
-    };
-    fetchData();
-  }, []);
-
-  const handleSelectChange = (event) => {
-    setSelectedOption(event.target.value);
-  };
-
-  const countryData = useMemo(() => {
-    return {
-      labels: displayCountries.map((country) => country.name.common),
-      datasets: [
-        {
-          label: 'Nombre total',
-          data: displayCountries.map((country) => country.count),
-          backgroundColor: "rgba(255, 73, 110, 0.9)",
-          borderColor: "rgba(255, 73, 110, 1)",
-          borderWidth: 1,
-        },
-        {
-          label: 'Nombre avec date de fin',
-          data: displayCountries.map((country) => country.endDateCount),
-          backgroundColor: "rgba(0, 123, 255, 0.9)",
-          borderColor: "rgba(0, 123, 255, 1)",
-          borderWidth: 1,
-        },
-      ],
-    };
-  }, [displayCountries]);
-
-  const countryOptions = {
-    indexAxis: "y",
-    responsive: true,
-    maintainAspectRatio: true,
-    aspectRatio: 2,
-    plugins: {
-      legend: {
-        display: false,
-      },
-    },
-    scales: {
-      x: {
-        ticks: {
-          beginAtZero: true,
-          color: "rgba(0, 0, 0, 0.8)",
-        },
-      },
-      y: {
-        ticks: {
-          color: "rgba(0, 0, 0, 0.8)",
-        },
-      },
-    },
-  };
-
-  const handleGraphClick = () => {
-    handleShowAllCountries();
-    setShowModal(true);
-  };
-
-  const handleShowAllCountries = () => {
-    setDisplayCountries(filteredCountries);
-  };
-
-  useEffect(() => {
-    if (showModal && chartRefModal.current) {
-      const chartInstance = new Chart(chartRefModal.current, {
-        type: "bar",
-        data: departmentData,
-        options: countryOptions,
-      });
-
-      return () => {
-        chartInstance.destroy();
-      };
+    if (selectedOption === "location") {
+      getLocationData();
+    } else if (selectedOption === "departement") {
+      getDepartmentData();
     }
-  }, [showModal, departmentData, countryOptions]);
+  }, [selectedOption]);
+
+  const getLocationData = async () => {
+    const response = await axios.get("http://localhost:3001/api/count_people_by_location")
+    const data = response.data;
+    const labels = Object.keys(data).map(code => locationInverse(code) || "Inconnu"); // Utilisation de locationInverse ici
+    const attritionRates = Object.values(data).map(value => parseFloat(value));
+    setLocationData({
+      labels: labels,
+      datasets: [{
+        label: "Taux d’attrition (%)",
+        data: attritionRates,
+        backgroundColor: "#FF496E",
+        borderColor: "#FF496E",
+        borderWidth: 1,
+      }]
+    });
+  };
+
+  const getDepartmentData = async () => {
+    const response = await axios.get("http://localhost:3001/api/calc_attrition_by_os_departement");
+    const data = response.data;
+    const labels = Object.keys(data)
+    const attritionRates = Object.values(data).map(value => parseFloat(value));
+    setDepartmentData({
+      labels: labels,
+      datasets: [{
+        label: "Taux d’attrition (%)",
+        data: attritionRates,
+        backgroundColor: "#FF496E",
+        borderColor: "#FF496E",
+        borderWidth: 1,
+      }]
+    });
+  };
 
   const handleModalClose = () => {
     setShowModal(false);
   };
 
+  const handleGraphClick = () => {
+    setShowModal(true);
+  };
+
+  const options = {
+    indexAxis: 'y',
+    responsive: true,
+    maintainAspectRatio: false,
+    scales: {
+      x: {
+        ticks: {
+          callback: function(value) {
+            return value + "%";
+          }
+        }
+      },
+      y: {
+        barThickness: 24,
+        borderWidth: 2
+      }
+    },
+    plugins: {
+      legend: {
+        display: true,
+        position: 'top'
+      }
+    }
+  };
+
+  const modalOptions = {
+    ...options,
+    scales: {
+      ...options.scales,
+      y: {
+        ...options.scales.y,
+        barThickness: 50,
+      }
+    }
+  };
+
+  const getLimitedData = (data, limit = 5) => ({
+    labels: data.labels.slice(0, limit),
+    datasets: data.datasets.map(ds => ({
+      ...ds,
+      data: ds.data.slice(0, limit)
+    }))
+  });
+
   return (
-    <div style={{ width: "35vw", height: "26vh" }}>
+    <div className="w-11/12 h-3/4">
       <h1 className="mb-4 text-secondary text-xl">
         Taux d’attrition par départements, pays
       </h1>
       <select
         className="border-4 border-secondary rounded p-1 text-secondary"
         value={selectedOption}
-        onChange={handleSelectChange}
+        onChange={e => setSelectedOption(e.target.value)}
       >
-        <option value="pays">Pays</option>
-        <option value="departement">Département</option>
+        <option value="location">Location</option>
+        <option value="departement">Département OS</option>
       </select>
-      <Bar data={countryData} options={countryOptions} onClick={handleGraphClick}  className="cursor-pointer"/>
-        {showModal && (
+      {selectedOption === "location" && (
+        <Bar data={getLimitedData(locationData)} options={options} onClick={handleGraphClick} className="cursor-pointer" />
+      )}
+      {selectedOption === "departement" && (
+        <Bar data={getLimitedData(departmentData)} options={options} onClick={handleGraphClick} className="cursor-pointer" />
+      )}
+      {showModal && (
         <>
           <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
             <div className="relative w-3/4 my-6 mx-auto max-w-7xl h-4/5">
               <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
                 <div className="relative p-6 flex-auto">
-                  <select
-                    className="border-4 border-secondary rounded p-1 text-secondary mb-4"
-                    value={selectedOption}
-                    onChange={handleSelectChange}
-                  >
-                    <option value="pays">Pays</option>
-                    <option value="departement">Département</option>
-                  </select>
                   <div className="overflow-y-auto max-h-[600px]">
-                    <canvas ref={chartRefModal} className="w-full" />
+                    {selectedOption === "location" && (
+                      <Bar data={locationData} options={options} className="w-full" />
+                    )}
+                    {selectedOption === "departement" && (
+                      <Bar data={departmentData} options={modalOptions} className="w-full" />
+                    )}
                   </div>
                 </div>
-                <div className="flex items-center justify-end p-2 border-t border-solid border-slate-00 rounded-b">
+                <div className="flex items-center justify-end p-2 border-t border-solid border-slate-200 rounded-b">
                   <button
                     className="text-white bg-secondary rounded-full font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150 hover:bg-tertiary"
                     type="button"

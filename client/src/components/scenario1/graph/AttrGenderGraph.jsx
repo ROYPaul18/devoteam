@@ -51,7 +51,7 @@ const AttrGenderGraph = () => {
         aspectRatio: 2,
         plugins: {
           legend: {
-            display: true,
+            display: false,
           },
         },
         scales: {
@@ -75,7 +75,7 @@ const AttrGenderGraph = () => {
   }, [dataGenderChart]);
 
   return (
-    <div className=' hover:cursor-pointer'>
+    <div className=' hover:cursor-pointer w-96 h-full'>
       <canvas ref={chartRef} />
     </div>
   );

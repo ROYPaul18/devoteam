@@ -1,10 +1,10 @@
 const express = require('express');
 const app = express();
 const endpoint = require('./endPoint/endPoint');
-const cors = require('cors'); // Ajoutez cette ligne pour importer le middleware CORS
+const cors = require('cors'); 
 
 app.use(express.json());
-app.use(cors()); // Déplacez cette ligne ici
+app.use(cors());
 app.use('/', endpoint);
 
 const PORT = process.env.PORT || 3001;

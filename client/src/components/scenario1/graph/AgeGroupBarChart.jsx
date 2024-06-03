@@ -17,8 +17,8 @@ const AgeGroupBarChart = () => {
         const dataset = {
           label: 'Taux d\'attrition',
           data: Object.values(attritionRates),
-          backgroundColor: 'rgba(96, 175, 94, 0.7)',
-          borderColor: 'rgba(96, 175, 94, 1)',
+          backgroundColor: '#FF496E',
+          borderColor: '#FF496E',
           borderWidth: 1,
         };
         setChartData({
@@ -31,9 +31,17 @@ const AgeGroupBarChart = () => {
       });
   }, []);
 
+  const chartOptions = {
+    plugins: {
+      legend: {
+        display: false,
+      },
+    },
+  };
+
   return (
-    <div className="hover:cursor-pointer">
-      <Bar data={chartData} />
+    <div className="hover:cursor-pointer w-96 h-full">
+      <Bar data={chartData} options={chartOptions} />
     </div>
   );
 };

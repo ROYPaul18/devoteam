@@ -12,7 +12,6 @@ const AgeOptions = ({ onAgeRangesChange }) => {
       const filteredEntryAges = response.data.filter((age) => age !== null);
       setEntryAges(filteredEntryAges);
       setCheckedEntryAges(filteredEntryAges.map((age) => ({ age, checked: true })));
-      console.log(filteredEntryAges);
     };
 
     fetchData();
@@ -54,6 +53,12 @@ const AgeOptions = ({ onAgeRangesChange }) => {
     onAgeRangesChange(getCheckedAgeRanges(checkedEntryAges));
   }, [checkedEntryAges]);
 
+  const toggleAllAges = (selectAll) => {
+    setCheckedEntryAges(entryAges.map(age => ({
+      age,
+      checked: selectAll
+    })));
+  };
   const renderCheckboxes = () => {
     return checkedEntryAges.map((entryAge, index) => (
       <div key={index} className="flex items-center mb-2 border-b border-gray-300 pb-2 checkbox-row">
@@ -76,17 +81,30 @@ const AgeOptions = ({ onAgeRangesChange }) => {
         Filtre les tanches d'âges
       </button>
       {showModal && (
-        <div className="fixed inset-0 flex items-center justify-center z-50 bg-gray-500 bg-opacity-50">
-          <div className="bg-white text-black w-80 xl:w-68 lg:68 h-auto rounded-xl p-2 flex-cols justify-center shadow-xl border-2 border-black">
-            <div className="flex flex-col">
-              <div className="flex-grow">{renderCheckboxes()}</div>
-              <button onClick={handleCloseModal} className="bg-secondary text-white px-4 py-2 rounded mt-2">
-                Valider
+      <div className="fixed inset-0 flex items-center justify-center z-50 bg-gray-500 bg-opacity-50">
+        <div className="bg-white text-black w-80 xl:w-68 lg:68 h-auto rounded-xl p-2 flex-cols justify-center shadow-xl border-2 border-black">
+          <div className="flex flex-col">
+            <div className="flex-grow">
+              {renderCheckboxes()}
+            </div>
+            <div className="flex justify-between gap-2">
+             
+              <button onClick={() => toggleAllAges(false)} className="bg-red-500 text-white px-3 py-1 rounded text-sm ml-2">
+                Tout désélectionner
+              </button> 
+
+              <button onClick={() => toggleAllAges(true)} className="bg-green-500 text-white px-3 py-1 rounded text-sm mr-2">
+                Tout sélectionner
               </button>
-              </div>
+             
+            </div>
+            <button onClick={handleCloseModal} className="bg-secondary text-white px-4 py-2 rounded mt-2">
+              Valider
+            </button>
           </div>
         </div>
-      )}
+      </div>
+    )}
     </>
   );
 };

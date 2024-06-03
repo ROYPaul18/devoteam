@@ -40,3 +40,10 @@ input.inputBox {
   background-color: #F6485A;
   color: black;
 }
+
+.equal-height {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+}

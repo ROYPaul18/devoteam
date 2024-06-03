@@ -1,31 +1,30 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 import DateRangeComp from "./DateRangeComp";
 import GenderSelected from "./GenderSelected";
-import axios from "axios";
 import CountrySelect from "./CountrySelect";
-import getCountries from "./utils/getCountries";
 import AgeOptions from "./AgeOptions";
 import translateCca2ToBaseValue from "./utils/translateCca2ToBaseValue";
 
-const FilterOption = (props) => {
+
+
+const FilterOption = () => {
   const [countries, setCountries] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
-  const [filters, setFilters] = useState({
-    gender: '',
-    entry_age: [],
-    country: '',
+  const [filters, setFilters] = useState(() => {
+    const savedFilters = localStorage.getItem('filters');
+    return savedFilters ? JSON.parse(savedFilters) : {
+      gender: '',
+      entry_age: [],
+      location: '',
+      start_date: [],
+    };
   });
 
   useEffect(() => {
-    const fetchCountries = async () => {
-      const filteredCountries = await getCountries();
-      setCountries(filteredCountries);
-    };
+    localStorage.setItem('filters', JSON.stringify(filters));
+  }, [filters]);
 
-    fetchCountries();
-  }, []);
-
-  // Mettre à jour les filtres dans le state
   const handleFilterChange = (filterName, newValue) => {
     setFilters(prevFilters => ({
       ...prevFilters,
@@ -33,58 +32,56 @@ const FilterOption = (props) => {
     }));
   };
 
-  // Gestion de la sélection du genre
   const handleGenderSelect = (gender) => {
     handleFilterChange('gender', gender);
   };
 
-  // Gestion de la sélection du pays
   const handleCountrySelect = (country) => {
-    handleFilterChange('country', country.cca2);
+    const translatedCountry = country ? translateCca2ToBaseValue(country.cca2) : "";
+    handleFilterChange('location', translatedCountry || (country ? country.name.common : "")); 
   };
 
-  // Gestion des plages d'âge
   const handleAgeRangesChange = (checkedAgeRanges) => {
     handleFilterChange('entry_age', checkedAgeRanges);
   };
 
-  // Gestion de la soumission des filtres
-  const handleFilterSubmit = () => {
-    const translatedCountry = translateCca2ToBaseValue(filters.country);
-    const translatedFilters = {
-      ...filters,
-      country: translatedCountry || filters.country,
-      entry_age: filters.entry_age.map(age => 'Age' + age)
-    };
-
-    axios.post('http://localhost:3001/api/filterValue', translatedFilters)
-      .then(response => {
-        console.log('Réponse de l\'API :', response.data);
-        setFilteredData(response.data);
-      })
-      .catch(error => {
-        console.error('Erreur lors de la requête POST :', error);
-      });
+  const handleDateRangeChange = (range) => {
+    handleFilterChange('start_date', range);
   };
 
-  // Mettre à jour le composant avec les nouvelles données
-  useEffect(() => {
-    console.log('Données filtrées mises à jour :', filteredData);
-  }, [filteredData]);
+  const handleFilterSubmit = () => {
+    const modifiedFilters = {
+      ...filters,
+      entry_age: filters.entry_age.map(age => `Age${age}`)
+    };
 
+    axios.post('http://localhost:3001/api/filterValue', modifiedFilters)
+      .then(response => {
+        setFilteredData(response.data);
+        console.log()
+        localStorage.setItem('filters', JSON.stringify(modifiedFilters));
+        setTimeout(() => {
+          window.location.reload();
+        }, []);
+      })
+      .catch(error => {
+        console.error('Error during POST request:', error);
+      });
+  };
+  console.log(localStorage);
   return (
     <nav className="flex items-center justify-center gap-16 xl:gap-8 mt-4">
       <div className="bg-white text-secondary md:w-full lg:w-3/4 xl:w-80 h-28 rounded-xl p-2 flex items-center justify-center shadow-md flex-col">
-        <DateRangeComp onFilterChange={handleFilterChange} />
+        <DateRangeComp onDateRangeChange={handleDateRangeChange} />
       </div>
       <div className="bg-white text-secondary w-80 xl:w-68 lg:w-68 h-28 rounded-xl p-2 shadow-xl">
         <CountrySelect countries={countries} onCountrySelect={handleCountrySelect} />
       </div>
       <div className="bg-white text-secondary w-80 xl:w-68 lg:68 h-28 rounded-xl p-2 flex justify-center items-center shadow-xl">
-        <AgeOptions  onAgeRangesChange={handleAgeRangesChange} />
+        <AgeOptions onAgeRangesChange={handleAgeRangesChange} />
       </div>
-      <GenderSelected onGenderSelect={handleGenderSelect} onFilterChange={handleFilterChange}/>
-      <button onClick={handleFilterSubmit}>Envoyer la requête</button>
+      <GenderSelected onGenderSelect={handleGenderSelect} onFilterChange={handleFilterChange} />
+      <button className="p-5 bg-secondary text-white rounded-full ml-2" onClick={handleFilterSubmit}>Envoyer les filtres</button>
     </nav>
   );
 };

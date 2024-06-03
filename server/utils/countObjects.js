@@ -18,6 +18,7 @@ function countObjectsWithEndDate(filteredData) {
     objectsWithEndDateNull: nullEndDateCount
   };
 }
+
 module.exports = {
   countObjectsWithEndDate: countObjectsWithEndDate
 };

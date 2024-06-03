@@ -1,13 +1,13 @@
-const filterData = (filters = { gender: null, entry_age: null, location: null }, data) => {
+const filterData = (filters = { gender: null, entry_age: null, location: null, start_date: null }, data) => {
   const { gender, entry_age, location } = filters;
 
-  return Object.values(data).filter(item => {
+  return Object.entries(data).filter(([id, item]) => {
     const matchesGender = !gender || item.gender === gender;
-    const matchesEntryAge = !entry_age || (item.entry_age && entry_age.includes(String(item.entry_age)));
+    const matchesEntryAge = !entry_age || entry_age.some(age => item.entry_age === age);
     const matchesLocation = !location || item.location === location;
 
     return matchesGender && matchesEntryAge && matchesLocation;
-  }).map(item => ({ ...item, originalId: item.id }));
+  }).map(([id, item]) => ({ id, ...item }));
 };
 
 module.exports = { filterData };

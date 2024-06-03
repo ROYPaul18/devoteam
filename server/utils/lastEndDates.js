@@ -1,8 +1,13 @@
 function getLastFiveEndDates(data) {
-  const endDatesWithId = Object.entries(data).filter(([, item]) => item.end_date !== null);
-  endDatesWithId.sort((a, b) => new Date(b[1].end_date) - new Date(a[1].end_date));
-  const lastFiveEndDatesWithId = endDatesWithId.slice(0, 5);
-  const lastFiveEndDates = lastFiveEndDatesWithId.map(([id, item]) => ({ id, ...item }));
+  // Filtrer pour ne garder que les objets avec une date de fin
+  const endDatesWithId = data.filter(item => item.end_date !== null);
+
+  // Trier par date de fin décroissante
+  endDatesWithId.sort((a, b) => new Date(b.end_date) - new Date(a.end_date));
+
+  // Prendre les cinq derniers éléments
+  const lastFiveEndDates = endDatesWithId.slice(0, 5);
+
   return lastFiveEndDates;
 }
 

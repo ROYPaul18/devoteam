@@ -18,7 +18,7 @@ const AttrByWeMoTriYe = () => {
     const r = Math.round(r1 + (r2 - r1) * value);
     const g = Math.round(g1 + (g2 - g1) * value);
     const b = Math.round(b1 + (b2 - b1) * value);
-
+    
     return `rgba(${r}, ${g}, ${b}, 1)`;
   }
 
@@ -85,7 +85,7 @@ const AttrByWeMoTriYe = () => {
         responsive: true,
         plugins: {
           legend: {
-            display: true,
+            display: false,
           },
         },
         scales: {
@@ -231,9 +231,10 @@ const AttrByWeMoTriYe = () => {
             responsive: true,
             plugins: {
               legend: {
-                display: true,
+                display: false,
               },
             },
+            borderWidth: 3,
             scales: {
               y: {
                 min: 0,
@@ -263,10 +264,11 @@ const AttrByWeMoTriYe = () => {
   };
 
   return (
-    <div style={{ width: "35vw", height: "26vh" }} >
-      <h1 className="mb-4 text-secondary text-xl">
-        Histogrammes du nombre d’attrition par mois, trimestre année{" "}
+    <div className="w-11/12 h-3/4">
+      <h1 className="mb-4 text-secondary text-lg">  
+        Histogrammes du nombre d’attrition par mois, trimestre année
       </h1>
+      <div className="w-full h-full">
       <div className="flex justify-between">
         <select
           name=""
@@ -295,7 +297,9 @@ const AttrByWeMoTriYe = () => {
           <option value="2019">2019</option>
         </select>
       </div>
-      <canvas ref={chartRef} onClick={handleGraphClick}  className="cursor-pointer"/>
+      <canvas ref={chartRef} onClick={handleGraphClick}  className="cursor-pointer flex justify-center"/>
+        
+      </div>
       {showModal && (
         <>
           <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">

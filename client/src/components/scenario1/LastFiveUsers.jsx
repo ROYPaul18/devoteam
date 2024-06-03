@@ -24,7 +24,7 @@ function LastFiveUsers() {
         {lastFiveUsers.map((user, index) => (
           <UserAccordion
             user={user}
-            key={index}
+            key={user.id}
             className={`border-b-4 border-solid border-secondary ${
               index === lastFiveUsers.length - 1 ? "border-b-0" : "mb-4"
             }`}
