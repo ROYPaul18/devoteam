@@ -12,7 +12,7 @@ const axios = require("axios");
 
 router.post('/api/filterValue', (req, res) => {
   const filters = req.body;
-  // console.log("Received filters: ", filters);  
+  console.log("Received filters: ", filters);  
   filterService.setFilteredData(filters);
   const filteredData = filterService.getFilteredData();
   res.json(filteredData);
@@ -30,7 +30,6 @@ router.get('/api/last_five_end_dates', (req, res) => {
       const filteredData = response.data;
       
       const lastFiveEndDates = getLastFiveEndDates(filteredData);
-      console.log("lastFiveEndDates", lastFiveEndDates);
       res.json(lastFiveEndDates);
     })
     .catch(error => {
@@ -147,4 +146,8 @@ router.get('/api/attrition_rates_by_partner', (req, res) => {
       res.status(500).json({ message: 'Une erreur s\'est produite' });
     });
 });
+
+
+
+
 module.exports = router;

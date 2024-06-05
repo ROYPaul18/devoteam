@@ -32,8 +32,12 @@ const jsonCountriesInverse = {
   };
   
   const translateCca2ToBaseValue = (cca2) => {
-    return Object.keys(jsonCountriesInverse).find(key => jsonCountriesInverse[key] === cca2);
-  };
+    if (!cca2) {
+        return "";
+    }
+    const baseValue = Object.keys(jsonCountriesInverse).find(key => jsonCountriesInverse[key] === cca2);
+    return baseValue || ""; 
+};
 
   
   export default translateCca2ToBaseValue;

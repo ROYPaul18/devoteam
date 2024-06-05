@@ -4,10 +4,10 @@ import translateCca2ToBaseValue from './utils/translateCca2ToBaseValue';
 
 const CountrySelect = ({ className, onCountrySelect }) => {
   const allCountriesOption = {
-    cca3: 'WLD', // Code fictif pour "Monde"
-    cca2: 'WLD', // Ajout du code CCA2 pour "Monde"
+    cca3: '',
+    cca2: '',
     name: { common: "Monde" },
-    flags: { svg: "../../../public/World.svg" } // Chemin correct vers l'image du drapeau "Monde"
+    flags: { svg: "../../../public/World.svg" } 
   };
 
   const [countries, setCountries] = useState([allCountriesOption]);
@@ -18,28 +18,44 @@ const CountrySelect = ({ className, onCountrySelect }) => {
     const loadCountries = async () => {
       try {
         const response = await axios.get("https://restcountries.com/v3.1/all");
-        const filteredCountries = response.data.filter(country => 
-          translateCca2ToBaseValue(country.cca2) // Filtrer pour garder seulement les pays dans jsonCountriesInverse
-        ).map(country => ({
+        const filteredCountries = response.data.filter(country => {
+          const baseValue = translateCca2ToBaseValue(country.cca2);
+          return baseValue;
+        }).map(country => ({
           cca3: country.cca3,
-          cca2: country.cca2, // S'assurer que cca2 est inclus
+          cca2: country.cca2, 
           name: { common: country.name.common },
           flags: { svg: country.flags.svg }
         }));
         setCountries([allCountriesOption, ...filteredCountries]);
-        setSelectedOption(allCountriesOption); // Définir "Monde" comme pays par défaut
+        const savedCountry = JSON.parse(localStorage.getItem('selectedCountry'));
+        if (savedCountry) {
+          setSelectedOption(savedCountry);
+          onCountrySelect(savedCountry);
+        } else {
+          setSelectedOption(allCountriesOption);
+        }
       } catch (error) {
         console.error("Failed to fetch countries:", error);
       }
     };
-
+  
     loadCountries();
   }, []);
 
   const handleCountrySelect = (country) => {
     setSelectedOption(country);
     setIsOpen(false);
-    onCountrySelect(country); // Passer l'objet complet du pays
+
+    if (country.name.common === "Monde") {
+      onCountrySelect({
+        ...country,
+        cca2: '' 
+      });
+    } else {
+      onCountrySelect(country);
+    }
+    localStorage.setItem('selectedCountry', JSON.stringify(country));
   };
 
   const toggleDropdown = () => {
@@ -56,9 +72,9 @@ const CountrySelect = ({ className, onCountrySelect }) => {
           <img
             src={selectedOption?.flags.svg}
             alt={selectedOption?.name.common}
-            className="w-16 h-16 rounded-full object-cover"
+            className="w-8 h-8 rounded-full object-cover"
           />
-          <span className="ml-1 text-3xl">
+          <span className="ml-2 text-2xl text-secondary">
             {selectedOption?.name.common}
           </span>
         </div>
@@ -67,9 +83,9 @@ const CountrySelect = ({ className, onCountrySelect }) => {
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
           viewBox="0 0 24 24"
-          strokeWidth={5}
+          strokeWidth={2}
           stroke="currentColor"
-          className="w-6 h-6"
+          className="w-6 h-6 text-secondary"
         >
           <path
             strokeLinecap="round"
@@ -91,7 +107,7 @@ const CountrySelect = ({ className, onCountrySelect }) => {
                 alt={country.name.common}
                 className="w-12 h-12 object-cover rounded-full"
               />
-              <span className="ml-1 text-2xl">{country.name.common}</span>
+              <span className="ml-2 text-2xl">{country.name.common}</span>
             </li>
           ))}
         </ul>

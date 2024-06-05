@@ -4,7 +4,7 @@ function calcAttrition(nombreTotalEmploye, countWithEndDateNotNull) {
 }
 
 function calcAttritionMale(maleCount, maleEndDateCount) {
-  const tauxAttritionMale = (maleEndDateCount / maleCount).toFixed(4)* 100;
+  const tauxAttritionMale = (maleEndDateCount / maleCount).toFixed(4) * 100;
   return tauxAttritionMale;
 }
 
@@ -16,16 +16,17 @@ function calcAttritionFemale(femaleCount, femaleEndDateCount) {
 function countEndDatesByLocation(filteredData) {
   const locationCounts = {};
 
-  filteredData.forEach(data => {
-    const location = data.location || 'Unknown';
+  for (const empId in filteredData) {
+    const empData = filteredData[empId];
+    const location = empData.location || 'Unknown';
     if (!locationCounts[location]) {
       locationCounts[location] = { totalCount: 0, endDateCount: 0 };
     }
     locationCounts[location].totalCount += 1;
-    if (data.end_date !== null) {
+    if (empData.end_date !== null) {
       locationCounts[location].endDateCount += 1;
     }
-  });
+  }
 
   return locationCounts;
 }
@@ -45,16 +46,17 @@ function calcAttritionByLocation(filteredData) {
 function countEndDatesByOsDepartement(filteredData) {
   const departementCounts = {};
 
-  filteredData.forEach(data => {
-    const departement = data.os_departement || 'Unknown';
+  for (const empId in filteredData) {
+    const empData = filteredData[empId];
+    const departement = empData.os_departement || 'Unknown';
     if (!departementCounts[departement]) {
       departementCounts[departement] = { totalCount: 0, endDateCount: 0 };
     }
     departementCounts[departement].totalCount += 1;
-    if (data.end_date !== null) {
+    if (empData.end_date !== null) {
       departementCounts[departement].endDateCount += 1;
     }
-  });
+  }
 
   return departementCounts;
 }
@@ -76,7 +78,13 @@ function countEndDatesByAgeGroup(filteredData, ageGroups) {
 
   for (const ageGroup of ageGroups) {
     const prefixedAgeGroup = `Age${ageGroup}`;
-    const ageGroupData = filteredData.filter(data => data.entry_age === prefixedAgeGroup);
+    const ageGroupData = [];
+    for (const empId in filteredData) {
+      const empData = filteredData[empId];
+      if (empData.entry_age === prefixedAgeGroup) {
+        ageGroupData.push(empData);
+      }
+    }
     const totalCount = ageGroupData.length;
     const endDateCount = ageGroupData.filter(data => data.end_date !== null).length;
 
@@ -105,22 +113,23 @@ function calcAttritionByAgeGroup(filteredData, ageGroups) {
 function countEndDatesByPartner(filteredData) {
   const partnerCounts = {};
 
-  filteredData.forEach(data => {
-    const partner = data.os_partner || 'Unknown';
+  for (const empId in filteredData) {
+    const empData = filteredData[empId];
+    const partner = empData.os_partner || 'Unknown';
     if (!partnerCounts[partner]) {
       partnerCounts[partner] = { totalCount: 0, endDateCount: 0 };
     }
     partnerCounts[partner].totalCount += 1;
-    if (data.end_date !== null) {
+    if (empData.end_date !== null) {
       partnerCounts[partner].endDateCount += 1;
     }
-  });
+  }
 
   return partnerCounts;
 }
 
 function calcAttritionByPartner(filteredData) {
-  
+
   const partnerCounts = countEndDatesByPartner(filteredData);
   const attritionRates = {};
 
@@ -131,6 +140,7 @@ function calcAttritionByPartner(filteredData) {
   }
   return attritionRates;
 }
+
 module.exports = {
   calcAttrition,
   calcAttritionMale,

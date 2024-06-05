@@ -24,7 +24,7 @@ const AttrPartnerGraph = () => {
     const fetchData = async () => {
       const attritionByPartner = await getAttritionByPartner();
       const partnersWithCounts = Object.keys(attritionByPartner).map(partner => ({
-        partner, // Utilisez 'partner' comme clé
+        partner, 
         attritionRate: attritionByPartner[partner],
       }));
      
@@ -110,7 +110,7 @@ const AttrPartnerGraph = () => {
 
   return (
     <div>
-      <div className="w-96 h-full">
+      <div className="w-full h-full">
         <Bar data={partnerData} options={partnerOptions} onClick={handleGraphClick} className="cursor-pointer" />
       </div>
       {showModal && (

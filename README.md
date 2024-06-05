@@ -1,5 +1,7 @@
 Pour installer et lancer le projet :
 
+Installer Node.js : https://nodejs.org/en
+
 Pour la partie Frontend :
 
 - cd /client

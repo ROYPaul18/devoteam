@@ -1,13 +1,12 @@
 import { useState, useEffect } from 'react';
 
 const GenderSelected = ({ onGenderSelect, onFilterChange }) => {
-  // Initialiser l'état avec la valeur de localStorage si disponible
+  
   const [gender, setGender] = useState(() => {
     const savedGender = localStorage.getItem('selectedGender');
     return savedGender || '';
   });
-
-  // Mettre à jour localStorage chaque fois que le genre change
+  
   useEffect(() => {
     localStorage.setItem('selectedGender', gender);
   }, [gender]);

@@ -1,12 +1,18 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Bar } from 'react-chartjs-2';
-import axios from 'axios';
-import locationInverse from '../utils/locationInverse'; // Assurez-vous que le chemin d'importation est correct
+import React, { useState, useEffect, useRef } from "react";
+import { Bar } from "react-chartjs-2";
+import axios from "axios";
+import locationInverse from "../utils/locationInverse";
 
 const AttrCountryGraph = () => {
   const [selectedOption, setSelectedOption] = useState("departement");
-  const [locationData, setLocationData] = useState({ labels: [], datasets: [] });
-  const [departmentData, setDepartmentData] = useState({ labels: [], datasets: [] });
+  const [locationData, setLocationData] = useState({
+    labels: [],
+    datasets: [],
+  });
+  const [departmentData, setDepartmentData] = useState({
+    labels: [],
+    datasets: [],
+  });
   const [showModal, setShowModal] = useState(false);
   const chartRefModal = useRef(null);
 
@@ -19,36 +25,50 @@ const AttrCountryGraph = () => {
   }, [selectedOption]);
 
   const getLocationData = async () => {
-    const response = await axios.get("http://localhost:3001/api/count_people_by_location")
+    const response = await axios.get(
+      "http://localhost:3001/api/count_people_by_location"
+    );
     const data = response.data;
-    const labels = Object.keys(data).map(code => locationInverse(code) || "Inconnu"); // Utilisation de locationInverse ici
-    const attritionRates = Object.values(data).map(value => parseFloat(value));
+    const labels = Object.keys(data).map(
+      (code) => locationInverse(code) || "Inconnu"
+    ); // Utilisation de locationInverse ici
+    const attritionRates = Object.values(data).map((value) =>
+      parseFloat(value)
+    );
     setLocationData({
       labels: labels,
-      datasets: [{
-        label: "Taux d’attrition (%)",
-        data: attritionRates,
-        backgroundColor: "#FF496E",
-        borderColor: "#FF496E",
-        borderWidth: 1,
-      }]
+      datasets: [
+        {
+          label: "Taux d’attrition (%)",
+          data: attritionRates,
+          backgroundColor: "#FF496E",
+          borderColor: "#FF496E",
+          borderWidth: 1,
+        },
+      ],
     });
   };
 
   const getDepartmentData = async () => {
-    const response = await axios.get("http://localhost:3001/api/calc_attrition_by_os_departement");
+    const response = await axios.get(
+      "http://localhost:3001/api/calc_attrition_by_os_departement"
+    );
     const data = response.data;
-    const labels = Object.keys(data)
-    const attritionRates = Object.values(data).map(value => parseFloat(value));
+    const labels = Object.keys(data);
+    const attritionRates = Object.values(data).map((value) =>
+      parseFloat(value)
+    );
     setDepartmentData({
       labels: labels,
-      datasets: [{
-        label: "Taux d’attrition (%)",
-        data: attritionRates,
-        backgroundColor: "#FF496E",
-        borderColor: "#FF496E",
-        borderWidth: 1,
-      }]
+      datasets: [
+        {
+          label: "Taux d’attrition (%)",
+          data: attritionRates,
+          backgroundColor: "#FF496E",
+          borderColor: "#FF496E",
+          borderWidth: 1,
+        },
+      ],
     });
   };
 
@@ -61,28 +81,28 @@ const AttrCountryGraph = () => {
   };
 
   const options = {
-    indexAxis: 'y',
+    indexAxis: "y",
     responsive: true,
     maintainAspectRatio: false,
     scales: {
       x: {
         ticks: {
-          callback: function(value) {
+          callback: function (value) {
             return value + "%";
-          }
-        }
+          },
+        },
       },
       y: {
         barThickness: 24,
-        borderWidth: 2
-      }
+        borderWidth: 2,
+      },
     },
     plugins: {
       legend: {
-        display: true,
-        position: 'top'
-      }
-    }
+        display: false,
+        position: "top",
+      },
+    },
   };
 
   const modalOptions = {
@@ -91,17 +111,18 @@ const AttrCountryGraph = () => {
       ...options.scales,
       y: {
         ...options.scales.y,
-        barThickness: 50,
-      }
-    }
+        barThickness: 30,
+        maxBarThickness: 30,
+      },
+    },
   };
 
   const getLimitedData = (data, limit = 5) => ({
     labels: data.labels.slice(0, limit),
-    datasets: data.datasets.map(ds => ({
+    datasets: data.datasets.map((ds) => ({
       ...ds,
-      data: ds.data.slice(0, limit)
-    }))
+      data: ds.data.slice(0, limit),
+    })),
   });
 
   return (
@@ -112,31 +133,52 @@ const AttrCountryGraph = () => {
       <select
         className="border-4 border-secondary rounded p-1 text-secondary"
         value={selectedOption}
-        onChange={e => setSelectedOption(e.target.value)}
+        onChange={(e) => setSelectedOption(e.target.value)}
       >
         <option value="location">Location</option>
         <option value="departement">Département OS</option>
       </select>
       {selectedOption === "location" && (
-        <Bar data={getLimitedData(locationData)} options={options} onClick={handleGraphClick} className="cursor-pointer" />
+        <Bar
+          data={getLimitedData(locationData)}
+          options={options}
+          onClick={handleGraphClick}
+          className="cursor-pointer"
+        />
       )}
       {selectedOption === "departement" && (
-        <Bar data={getLimitedData(departmentData)} options={options} onClick={handleGraphClick} className="cursor-pointer" />
+        <Bar
+          data={getLimitedData(departmentData)}
+          options={options}
+          onClick={handleGraphClick}
+          className="cursor-pointer"
+        />
       )}
       {showModal && (
         <>
           <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
             <div className="relative w-3/4 my-6 mx-auto max-w-7xl h-4/5">
               <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
-                <div className="relative p-6 flex-auto">
-                  <div className="overflow-y-auto max-h-[600px]">
-                    {selectedOption === "location" && (
-                      <Bar data={locationData} options={options} className="w-full" />
-                    )}
-                    {selectedOption === "departement" && (
-                      <Bar data={departmentData} options={modalOptions} className="w-full" />
-                    )}
-                  </div>
+                <div
+                  className="relative p-6 flex-auto"
+                  style={{ maxHeight: "800px", overflowY: "auto" }}
+                >
+                  {selectedOption === "location" && (
+                    <Bar
+                      data={locationData}
+                      options={modalOptions}
+                      className="w-full"
+                    />
+                  )}
+                  {selectedOption === "departement" && (
+                    <div style={{ maxHeight: "800px", overflowY: "auto" }}>
+                      <Bar
+                        data={departmentData}
+                        options={modalOptions}
+                        className="w-full"
+                      />
+                    </div>
+                  )}
                 </div>
                 <div className="flex items-center justify-end p-2 border-t border-solid border-slate-200 rounded-b">
                   <button

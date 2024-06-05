@@ -17,5 +17,3 @@ function getUniqueOsPartners(filePath) {
 
 const filePath = 'server/data/data_v4.json';
 const [uniquePartners, totalUniqueCount] = getUniqueOsPartners(filePath);
-console.log(uniquePartners);
-console.log(totalUniqueCount);

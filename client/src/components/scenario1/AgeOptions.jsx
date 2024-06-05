@@ -10,10 +10,15 @@ const AgeOptions = ({ onAgeRangesChange }) => {
     const fetchData = async () => {
       const response = await axios.get('http://localhost:3001/api/entry-ages');
       const filteredEntryAges = response.data.filter((age) => age !== null);
-      setEntryAges(filteredEntryAges);
-      setCheckedEntryAges(filteredEntryAges.map((age) => ({ age, checked: true })));
+      setEntryAges(filteredEntryAges);  
+      
+      const savedCheckedEntryAges = JSON.parse(localStorage.getItem('checkedEntryAges'));
+      if (savedCheckedEntryAges && savedCheckedEntryAges.length > 0) {
+        setCheckedEntryAges(savedCheckedEntryAges);
+      } else {
+        setCheckedEntryAges(filteredEntryAges.map((age) => ({ age, checked: true })));
+      }
     };
-
     fetchData();
   }, []);
 
