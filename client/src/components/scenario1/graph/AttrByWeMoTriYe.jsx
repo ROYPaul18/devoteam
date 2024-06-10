@@ -4,7 +4,7 @@ import { Bar } from 'react-chartjs-2';
 
 const AttritionChart = () => {
   const [data, setData] = useState([]);
-  const [period, setPeriod] = useState('monthly'); // 'annual', 'quarterly', 'monthly'
+  const [period, setPeriod] = useState('annual'); // 'annual', 'quarterly', 'monthly'
   const [year, setYear] = useState(2024);
 
   const color1 = "rgb(255, 204, 214)";

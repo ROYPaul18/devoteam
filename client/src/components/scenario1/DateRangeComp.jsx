@@ -46,10 +46,11 @@ const DateRangeComp = ({ onDateRangeChange }) => {
   return (
     <div className="calendarWrap">
       <input
-        value={`${format(range[0].startDate, 'yyyy-MM-dd')} to ${format(range[0].endDate, 'yyyy-MM-dd')}`}
+        value={`${format(range[0].startDate, 'yyyy-MM-dd')} / ${format(range[0].endDate, 'yyyy-MM-dd')}`}
         readOnly
-        className="font-bold text-xl px-8 py-4 bg-secondary text-white"
+        className="font-bold text-xl px-8 py-4 bg-secondary text-white w-full" // Ajout de w-full pour la largeur complète
         onClick={() => setOpen((open) => !open)}
+       
       />
       <div ref={refOne}>
         {open && (

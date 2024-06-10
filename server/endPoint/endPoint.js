@@ -20,6 +20,7 @@ router.post('/api/filterValue', (req, res) => {
 
 router.get('/api/getFilteredData', (req, res) => {
   const filteredData = filterService.getFilteredData();
+  console.log(filteredData);
   res.json(filteredData);
 });
 
@@ -135,9 +136,7 @@ router.get('/api/attrition_rates_by_partner', (req, res) => {
     .get('http://localhost:3001/api/getFilteredData')
     .then(response => {
       const filteredData = response.data;
-      // console.log("Filtered Data:", filteredData);
       const attritionRatesByOsPartner = calcAttritionByPartner(filteredData);
-      // console.log("Attrition Rates by Partner:", attritionRates);
       res.json(attritionRatesByOsPartner);
     })
     .catch((error) => {

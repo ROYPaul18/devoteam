@@ -7,7 +7,7 @@ const CountrySelect = ({ className, onCountrySelect }) => {
     cca3: '',
     cca2: '',
     name: { common: "Monde" },
-    flags: { svg: "../../../public/World.svg" } 
+    flags: { svg: "/World.svg" } 
   };
 
   const [countries, setCountries] = useState([allCountriesOption]);

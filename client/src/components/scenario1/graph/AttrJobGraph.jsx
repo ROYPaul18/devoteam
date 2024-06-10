@@ -8,8 +8,8 @@ const data = {
     {
       label: 'My Dataset',
       data: [10, 20, 30, 40, 50],
-      backgroundColor: 'rgba(255, 73, 110, 1)',
-      borderColor: 'rgba(255, 73, 110, 1)',
+      backgroundColor: '#ECFBFF',
+      borderColor: '#ECFBFF',
       borderWidth: 0.5,
       
 }],

@@ -11,7 +11,7 @@ const Home = () => {
       </div>
 
       <div className="mt-20 m-auto">
-        <div className="grid grid-cols-3 gap-12 p-4">
+        <div className="grid grid-cols-3 gap-12 p-4 items-center">
           <Link
             to="/scenario_un"
             className="bg-blue-500 text-white p-4 rounded-lg h-60 w-full xl:max-h-52 2xl:max-h-80 flex items-center justify-center"
