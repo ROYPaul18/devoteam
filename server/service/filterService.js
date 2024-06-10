@@ -10,7 +10,7 @@ const data = JSON.parse(fs.readFileSync(dataPath, 'utf-8'));
 function setFilteredData(filters) {
   // Appliquer les filtres aux données
   filteredData = filterData(filters, data);
-  console.log("Filtered data after applying filters:", filteredData);
+ 
 }
 
 function getFilteredData() {

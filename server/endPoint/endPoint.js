@@ -20,7 +20,6 @@ router.post('/api/filterValue', (req, res) => {
 
 router.get('/api/getFilteredData', (req, res) => {
   const filteredData = filterService.getFilteredData();
-  
   res.json(filteredData);
 });
 

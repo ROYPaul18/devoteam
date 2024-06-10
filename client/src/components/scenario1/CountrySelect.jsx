@@ -65,16 +65,16 @@ const CountrySelect = ({ className, onCountrySelect }) => {
   return (
     <div className="relative w-full flex justify-center items-center">
       <div
-        className={`flex justify-between items-center px-2 py-1 cursor-pointer w-full ${className}`}
+        className={`flex justify-between center items-center my-auto px-4 py-2 cursor-pointer w-full ${className}`}
         onClick={toggleDropdown}
       >
         <div className="flex items-center">
           <img
             src={selectedOption?.flags.svg}
             alt={selectedOption?.name.common}
-            className="w-8 h-8 rounded-full object-cover"
+            className="w-12 h-12 rounded-full object-cover"
           />
-          <span className="ml-2 text-2xl text-secondary">
+          <span className="ml-2 text-3xl text-secondary">
             {selectedOption?.name.common}
           </span>
         </div>
@@ -83,7 +83,7 @@ const CountrySelect = ({ className, onCountrySelect }) => {
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
           viewBox="0 0 24 24"
-          strokeWidth={2}
+          strokeWidth={3}
           stroke="currentColor"
           className="w-6 h-6 text-secondary"
         >

@@ -65,16 +65,19 @@ const AttritionChart = () => {
         backgroundColor: Array.isArray(data) ? generateColors(data.map(item => item.rate), color1, color2) : [],
         borderColor: Array.isArray(data) ? generateColors(data.map(item => item.rate), color1, color2) : [],
         borderWidth: 1,
-        options: {
-          legend: {
-            display: false
-          }
-        }
       },
     ],
   };
 
-  console.log('Chart Data:', chartData); // Log the chart data
+  const chartOptions = {
+    plugins: {
+      legend: {
+        display: false
+      }
+    }
+  };
+
+  console.log('Chart Data:', chartData); 
 
   return (
     <div>
@@ -92,7 +95,7 @@ const AttritionChart = () => {
         </select>
       </div>
       <div className='w-11/12 h-3/4'>
-        <Bar data={chartData} />
+        <Bar data={chartData} options={chartOptions} />
       </div>
     </div>
   );

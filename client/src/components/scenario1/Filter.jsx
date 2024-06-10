@@ -13,7 +13,7 @@ const Filter = () => {
   };
 
   return (
-    <div className='flex items-center justify-center h-20vh'>
+    <div className='flex items-center justify-center '>
       <Header />
       <FilterOption onFilterChange={onFilterChange}/>
     </div>

@@ -47,3 +47,8 @@ input.inputBox {
   justify-content: center;
   height: 100%;
 }
+
+.center {
+  display: flex;
+  align-items: center;
+}
