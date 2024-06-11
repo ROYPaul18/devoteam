@@ -3,6 +3,7 @@ import UserAccordion from "./UserAccordion";
 
 function LastFiveUsers() {
   const [lastFiveUsers, setLastFiveUsers] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function fetchData() {
@@ -11,6 +12,7 @@ function LastFiveUsers() {
       );
       const data = await response.json();
       setLastFiveUsers(data);
+      setLoading(false);
     }
     fetchData();
   }, []);
@@ -20,17 +22,24 @@ function LastFiveUsers() {
       <h2 className="text-secondary text-xl mb-8 text-center">
         Caractéristiques des 5 dernières  démissions
       </h2>
-      <ul>
-        {lastFiveUsers.map((user, index) => (
-          <UserAccordion
-            user={user}
-            key={user.id}
-            className={`border-b-4 border-solid border-secondary ${
-              index === lastFiveUsers.length - 1 ? "border-b-0" : "mb-4"
-            }`}
-          />
-        ))}
-      </ul>
+      {loading ? (
+        Array.from({ length: 5 }, (_, i) => (
+          <UserAccordion loading={true} key={i} />
+        ))
+      ) : (
+        <ul>
+          {lastFiveUsers.map((user, index) => (
+            <UserAccordion
+              user={user}
+              loading={false}
+              key={user.id}
+              className={`border-b-4 border-solid border-secondary ${
+                index === lastFiveUsers.length - 1 ? "border-b-0" : "mb-4"
+              }`}
+            />
+          ))}
+        </ul>
+      )}
     </div>
   );
 }

@@ -1,10 +1,12 @@
 import React, { useRef, useEffect, useState } from 'react';
 import Chart from 'chart.js/auto';
 import axios from 'axios';
+import { Bars } from 'react-loader-spinner'; // Importer le loader
 
 const AttrGenderGraph = () => {
   const chartRef = useRef(null);
   const [dataGenderChart, setDataGenderChart] = useState({});
+  const [loading, setLoading] = useState(true); // État de chargement
 
   useEffect(() => {
     const fetchData = async () => {
@@ -30,8 +32,10 @@ const AttrGenderGraph = () => {
             },
           ],          
         });
+        setLoading(false); // Fin du chargement
       } catch (error) {
         console.error(error);
+        setLoading(false); // Fin du chargement même en cas d'erreur
       }
     };
 
@@ -54,18 +58,6 @@ const AttrGenderGraph = () => {
             display: false,
           },
         },
-        scales: {
-          y: {
-            grid: {
-              drawOnChartArea: false,
-            },
-          },
-          x: {
-            grid: {
-              drawOnChartArea: false,
-            },
-          },
-        },
       },
     });
 
@@ -75,8 +67,24 @@ const AttrGenderGraph = () => {
   }, [dataGenderChart]);
 
   return (
-    <div className=' hover:cursor-pointer w-96 h-full'>
-      <canvas ref={chartRef} />
+    <div className='relative w-96 h-full'> {/* Conteneur avec position relative */}
+      {loading && ( // Afficher le loader si les données sont en cours de chargement
+        <div className="absolute inset-0 flex justify-center items-center bg-white bg-opacity-75 z-10">
+          <Bars
+            height={80}
+            width={80}
+            color="#FF496E"
+            visible={true}
+            ariaLabel='oval-loading'
+            secondaryColor="#FF496E"
+            strokeWidth={2}
+            strokeWidthSecondary={2}
+          />
+        </div>
+      )}
+      <div className={`w-full h-full ${loading ? 'opacity-50' : ''}`}>
+        <canvas ref={chartRef} />
+      </div>
     </div>
   );
 };

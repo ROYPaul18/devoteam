@@ -3,11 +3,13 @@ import { Bar } from "react-chartjs-2";
 import "chart.js/auto";
 import Chart from "chart.js/auto";
 import axios from "axios";
+import { Bars } from 'react-loader-spinner'; // Importer le loader
 
 const AttrPartnerGraph = () => {
   const [showModal, setShowModal] = useState(false);
   const [filteredPartners, setFilteredPartners] = useState([]);
   const [displayPartners, setDisplayPartners] = useState([]);
+  const [loading, setLoading] = useState(true); // État de chargement
   const chartRefModal = useRef(null);
 
   const getAttritionByPartner = async () => {
@@ -22,6 +24,7 @@ const AttrPartnerGraph = () => {
 
   useEffect(() => {
     const fetchData = async () => {
+      setLoading(true); // Début du chargement
       const attritionByPartner = await getAttritionByPartner();
       const partnersWithCounts = Object.keys(attritionByPartner).map(partner => ({
         partner, 
@@ -30,6 +33,7 @@ const AttrPartnerGraph = () => {
      
       setFilteredPartners(partnersWithCounts);
       setDisplayPartners(partnersWithCounts.slice(0, 4));
+      setLoading(false); // Fin du chargement
     };
     fetchData();
   }, []);
@@ -46,8 +50,6 @@ const AttrPartnerGraph = () => {
       },
     ],
   };
-
-
 
   const partnerOptions = {
     indexAxis: "y",
@@ -83,7 +85,7 @@ const AttrPartnerGraph = () => {
       const chartInstance = new Chart(chartRefModal.current, {
         type: "bar",
         data: {
-          labels: filteredPartners.map((partner) => partner.partner), // Utilisez 'partner' ici aussi
+          labels: filteredPartners.map((partner) => partner.partner),
           datasets: [
             {
               label: 'Taux d\'attrition',
@@ -109,8 +111,22 @@ const AttrPartnerGraph = () => {
   };
 
   return (
-    <div>
-      <div className="w-full h-full">
+    <div className="relative w-full h-full">
+      {loading && (
+        <div className="absolute inset-0 flex justify-center items-center bg-white bg-opacity-75 z-10">
+          <Bars
+            height={80}
+            width={80}
+            color="#FF496E"
+            visible={true}
+            ariaLabel='oval-loading'
+            secondaryColor="#FF496E"
+            strokeWidth={2}
+            strokeWidthSecondary={2}
+          />
+        </div>
+      )}
+      <div className={`w-full h-full ${loading ? 'opacity-50' : ''} p-`}>
         <Bar data={partnerData} options={partnerOptions} onClick={handleGraphClick} className="cursor-pointer" />
       </div>
       {showModal && (

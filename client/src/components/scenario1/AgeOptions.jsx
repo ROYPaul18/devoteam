@@ -60,13 +60,13 @@ const AgeOptions = ({ onAgeRangesChange }) => {
 
   const renderCheckboxes = () => {
     return checkedEntryAges.map((entryAge, index) => (
-      <div key={index} className="flex items-center mb-2 border-b border-gray-300 pb-2 checkbox-row">
+      <div key={index} className="flex items-center mb-2 border-b border-gray-300 pb-2 checkbox-row rounded-xl" >
         <input
           type="checkbox"
           id={`entry-age-${entryAge.age === null ? 'inconnue' : entryAge.age}`}
           checked={entryAge.checked}
           onChange={() => handleCheckboxChange(entryAge.age)}
-          className="mr-2 h-6 w-6 text-red-500 border-2 border-red-500 bg-gray-200 focus:ring-red-500 accent-secondary rounded-lg"
+          className="mr-2 h-6 w-6 text-red-500 border-2 border-red-500 bg-gray-200 focus:ring-red-500 accent-secondary rounded-xl"
         />
         <label className="text-2xl" htmlFor={`entry-age-${entryAge.age === null ? 'inconnue' : entryAge.age}`}>
           {entryAge.age === null ? 'Inconnue' : entryAge.age}

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { Oval } from 'react-loader-spinner'; // Importer le loader
 
 const ListInfo = () => {
   const [data, setData] = useState({});
@@ -21,19 +22,26 @@ const ListInfo = () => {
     fetchData();
   }, []);
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
-  if (error) {
-    return <div>Erreur: {error.message}</div>;
-  }
 
   const { totalObjects, objectsWithEndDateNotNull, objectsWithEndDateNull, attritionRate } = data;
 
   return (
     <div className="flex flex-col justify-around gap-y-16 lg:gap-y-8 my-2">
-      <div className="bg-attrition-100 w-56 2xl:w-60 h-1/3 2xl:h-48 rounded-2xl p-3 shadow-md hover:shadow-xl flex-cols justify-between md:h-36">
+      <div className="relative bg-attrition-100 w-56 2xl:w-60 h-1/3 2xl:h-48 rounded-2xl p-3 shadow-md hover:shadow-xl flex-cols justify-between md:h-36">
+        {loading && (
+          <div className="absolute inset-0 flex justify-center items-center bg-white bg-opacity-75 z-10 rounded-2xl">
+            <Oval
+              height={40}
+              width={40}
+              color="#FF496E"
+              visible={true}
+              ariaLabel='oval-loading'
+              secondaryColor="#FF496E"
+              strokeWidth={4}
+              strokeWidthSecondary={4}
+            />
+          </div>
+        )}
         <h1 className="text-attrition-200 font-extrabold mb-3">
           Taux d'attrition :
         </h1>
@@ -58,7 +66,21 @@ const ListInfo = () => {
         </div>
       </div>
 
-      <div className="bg-depart-100 w-56 2xl:w-60 h-1/3 2xl:h-48 rounded-3xl p-3 shadow-md hover:shadow-xl flex-cols justify-between md:h-36">
+      <div className="relative bg-depart-100 w-56 2xl:w-60 h-1/3 2xl:h-48 rounded-3xl p-3 shadow-md hover:shadow-xl flex-cols justify-between md:h-36">
+        {loading && (
+          <div className="absolute inset-0 flex justify-center items-center bg-white bg-opacity-75 z-10 rounded-2xl">
+            <Oval
+              height={40}
+              width={40}
+              color="#5E9EAF"
+              visible={true}
+              ariaLabel='oval-loading'
+              secondaryColor="#5E9EAF"
+              strokeWidth={2}
+              strokeWidthSecondary={2}
+            />
+          </div>
+        )}
         <h1 className="text-depart-200 font-extrabold mb-3">
           Nombre de départ :
         </h1>
@@ -83,7 +105,21 @@ const ListInfo = () => {
         </div>
       </div>
 
-      <div className="bg-employe-100 w-56 2xl:w-60 h-1/3 2xl:h-48 rounded-3xl p-3 shadow-md hover:shadow-xl flex-cols justify-between md:h-36">
+      <div className="relative bg-employe-100 w-56 2xl:w-60 h-1/3 2xl:h-48 rounded-3xl p-3 shadow-md hover:shadow-xl flex-cols justify-between md:h-36">
+        {loading && (
+          <div className="absolute inset-0 flex justify-center items-center bg-white bg-opacity-50 z-10 rounded-2xl">
+            <Oval
+              height={40}
+              width={40}
+              color="#FFA87D"
+              visible={true}
+              ariaLabel='oval-loading'
+              secondaryColor="#FFA87D"
+              strokeWidth={2}
+              strokeWidthSecondary={2}
+            />
+          </div>
+        )}
         <h1 className="text-employe-200 font-extrabold mb-3">
           Nombre d'employés :
         </h1>
@@ -104,12 +140,12 @@ const ListInfo = () => {
               strokeLinecap="round"
               strokeLinejoin="round"
               d="M20.25 14.15v4.25c0 1.094-.787 2.036-1.872 2.18-2.087.277-4.216.42-6.378.42s-4.291-.143-6.378-.42c-1.085-.144-1.872-1.086-1.872-2.18v-4.25m16.5 0a2.18 2.18 0 0 0 .75-1.661V8.706c0-1.081-.768-2.015-1.837-2.175a48.114 48.114 0 0 0-3.413-.387m4.5 8.006c-.194.165-.42.295-.673.38A23.978 23.978 0 0 1 12 15.75c-2.648 0-5.195-.429-7.577-1.22a2.016 2.016 0 0 1-.673-.38m0 0A2.18 2.18 0 0 1 3 12.489V8.706c0-1.081.768-2.015 1.837-2.175a48.111 48.111 0 0 1 3.413-.387m7.5 0V5.25A2.25 2.25 0 0 0 13.5 3h-3a2.25 2.25 0 0 0-2.25 2.25v.894m7.5 0a48.667 48.667 0 0 0-7.5 0M12 12.75h.008v.008H12v-.008Z"
-            />
-          </svg>
+              />
+            </svg>
+          </div>
         </div>
       </div>
-    </div>
-  );
-};
-
-export default ListInfo;
+    );
+  };
+  
+  export default ListInfo;

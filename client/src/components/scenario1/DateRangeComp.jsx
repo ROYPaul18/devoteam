@@ -7,10 +7,14 @@ import 'react-date-range/dist/theme/default.css';
 import '../../App.css';
 
 const DateRangeComp = ({ onDateRangeChange }) => {
+ 
+  const initialStartDate = new Date(2006, 0, 1); 
+  const currentDate = new Date(); 
+
   const [range, setRange] = useState([
     {
-      startDate: new Date(),
-      endDate: addDays(new Date(), 7),
+      startDate: initialStartDate,
+      endDate: addDays(initialStartDate, 7),
       key: 'selection',
     },
   ]);
@@ -44,13 +48,13 @@ const DateRangeComp = ({ onDateRangeChange }) => {
   };
 
   return (
-    <div className="calendarWrap">
+    <div className="calendarWrap" style={{ width: '100%' }}>
       <input
         value={`${format(range[0].startDate, 'yyyy-MM-dd')} / ${format(range[0].endDate, 'yyyy-MM-dd')}`}
         readOnly
-        className="font-bold text-xl px-8 py-4 bg-secondary text-white w-full" // Ajout de w-full pour la largeur complète
+        className="font-bold text-xl bg-secondary text-white text-start rounded-md"
         onClick={() => setOpen((open) => !open)}
-       
+        style={{ padding: '16px 24px', width: '100%' }} 
       />
       <div ref={refOne}>
         {open && (
@@ -63,6 +67,8 @@ const DateRangeComp = ({ onDateRangeChange }) => {
             direction="horizontal"
             className="calendarElement w-full"
             rangeColors={['#f33e5b', '#3ecf8e', '#fed14c']}
+            minDate={initialStartDate} // Date de début minimale
+            maxDate={currentDate} // Date de fin maximale
           />
         )}
       </div>

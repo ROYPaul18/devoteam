@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Bar } from 'react-chartjs-2';
+import { Bars } from 'react-loader-spinner'; // Importer le loader
 
 const AttritionChart = () => {
   const [data, setData] = useState([]);
   const [period, setPeriod] = useState('annual'); // 'annual', 'quarterly', 'monthly'
   const [year, setYear] = useState(2024);
+  const [loading, setLoading] = useState(true); // État de chargement
 
   const color1 = "rgb(255, 204, 214)";
   const color2 = "rgb(174, 50, 75)";
@@ -32,6 +34,7 @@ const AttritionChart = () => {
 
   useEffect(() => {
     const fetchData = async () => {
+      setLoading(true); // Début du chargement
       try {
         const response = await axios.get(`http://localhost:3001/api/attrition/${period}`, {
           params: { year }
@@ -42,6 +45,7 @@ const AttritionChart = () => {
         console.error('Error fetching attrition data:', error);
         setData([]); // Set data to an empty array in case of error
       }
+      setLoading(false); // Fin du chargement
     };
 
     fetchData();
@@ -80,7 +84,21 @@ const AttritionChart = () => {
   console.log('Chart Data:', chartData); 
 
   return (
-    <div>
+    <div className="relative w-11/12 h-3/4"> 
+      {loading && ( 
+        <div className="absolute inset-0 flex justify-center items-center bg-white bg-opacity-75 z-10">
+          <Bars
+            height={80}
+            width={80}
+            color="#FF496E"
+            visible={true}
+            ariaLabel='oval-loading'
+            secondaryColor="#FF496E"
+            strokeWidth={2}
+            strokeWidthSecondary={2}
+          />
+        </div>
+      )}
       <h2 className='mb-1 text-secondary text-xl'>Histograms du nombre d'attrition par mois, trimestre année</h2>
       <div className='flex justify-between'> 
         <select className='border-4 border-secondary rounded p-1 text-secondary' value={period} onChange={(e) => setPeriod(e.target.value)}>
@@ -94,7 +112,7 @@ const AttritionChart = () => {
           ))}
         </select>
       </div>
-      <div className='w-11/12 h-3/4'>
+      <div className={`w-full h-full ${loading ? 'opacity-50' : ''}`}>
         <Bar data={chartData} options={chartOptions} />
       </div>
     </div>

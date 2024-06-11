@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { Bar } from "react-chartjs-2";
 import axios from "axios";
 import locationInverse from "../utils/locationInverse";
+import { Bars } from 'react-loader-spinner'; 
 
 const AttrCountryGraph = () => {
   const [selectedOption, setSelectedOption] = useState("departement");
@@ -14,6 +15,7 @@ const AttrCountryGraph = () => {
     datasets: [],
   });
   const [showModal, setShowModal] = useState(false);
+  const [loading, setLoading] = useState(true); // État de chargement
   const chartRefModal = useRef(null);
 
   useEffect(() => {
@@ -25,6 +27,7 @@ const AttrCountryGraph = () => {
   }, [selectedOption]);
 
   const getLocationData = async () => {
+    setLoading(true); // Début du chargement
     const response = await axios.get(
       "http://localhost:3001/api/count_people_by_location"
     );
@@ -47,9 +50,11 @@ const AttrCountryGraph = () => {
         },
       ],
     });
+    setLoading(false); // Fin du chargement
   };
 
   const getDepartmentData = async () => {
+    setLoading(true); // Début du chargement
     const response = await axios.get(
       "http://localhost:3001/api/calc_attrition_by_os_departement"
     );
@@ -70,6 +75,7 @@ const AttrCountryGraph = () => {
         },
       ],
     });
+    setLoading(false); // Fin du chargement
   };
 
   const handleModalClose = () => {
@@ -126,7 +132,21 @@ const AttrCountryGraph = () => {
   });
 
   return (
-    <div className="w-11/12 h-3/4">
+    <div className="relative w-11/12 h-3/4">
+      {loading && (
+        <div className="absolute inset-0 flex justify-center items-center bg-white bg-opacity-75 z-0">
+          <Bars
+            height={80}
+            width={80}
+            color="#FF496E"
+            visible={true}
+            ariaLabel='oval-loading'
+            secondaryColor="#FF496E"
+            strokeWidth={2}
+            strokeWidthSecondary={2}
+          />
+        </div>
+      )}
       <h1 className="mb-4 text-secondary text-xl">
         Taux d’attrition par départements, pays
       </h1>
@@ -138,22 +158,24 @@ const AttrCountryGraph = () => {
         <option value="location">Location</option>
         <option value="departement">Département OS</option>
       </select>
-      {selectedOption === "location" && (
-        <Bar
-          data={getLimitedData(locationData)}
-          options={options}
-          onClick={handleGraphClick}
-          className="cursor-pointer"
-        />
-      )}
-      {selectedOption === "departement" && (
-        <Bar
-          data={getLimitedData(departmentData)}
-          options={options}
-          onClick={handleGraphClick}
-          className="cursor-pointer"
-        />
-      )}
+      <div className={`w-full h-full ${loading ? 'opacity-50' : ''}`}>
+        {selectedOption === "location" && (
+          <Bar
+            data={getLimitedData(locationData)}
+            options={options}
+            onClick={handleGraphClick}
+            className="cursor-pointer"
+          />
+        )}
+        {selectedOption === "departement" && (
+          <Bar
+            data={getLimitedData(departmentData)}
+            options={options}
+            onClick={handleGraphClick}
+            className="cursor-pointer"
+          />
+        )}
+      </div>
       {showModal && (
         <>
           <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
