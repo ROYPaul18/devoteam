@@ -134,7 +134,7 @@ const FilterOption = () => {
     <div className="bg-white text-secondary w-full md:w-1/2 lg:w-1/4 h-20 md:h-24 rounded-xl p-2 flex justify-center items-center shadow-xl">
       <GenderSelected onGenderSelect={handleGenderSelect} onFilterChange={handleFilterChange} />
     </div>
-    <div className="flex flex-col items-center w-full md:w-auto mt-4 md:mt-0">
+    <div className="flex flex-col items-center 2xl:w-auto md:w-auto mt-4 md:mt-0">
       <button className="bg-white text-secondary border border-secondary rounded-full mb-2 w-full md:w-48 h-10 text-sm md:text-md font-bold" onClick={handleResetAndSubmit}>Réinitialiser les filtres</button>
       <button className="bg-secondary text-white rounded-full w-full md:w-48 h-10 text-sm md:text-md font-bold" onClick={() => handleFilterSubmit(filters)}>Envoyer les filtres</button>
     </div>  

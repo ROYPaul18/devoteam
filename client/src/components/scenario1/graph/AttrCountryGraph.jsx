@@ -132,7 +132,7 @@ const AttrCountryGraph = () => {
   });
 
   return (
-    <div className="relative w-11/12 h-3/4">
+    <div className="relative w-11/12 h-4/5 2xl:h-3/4">
       {loading && (
         <div className="absolute inset-0 flex justify-center items-center bg-white bg-opacity-75 z-0">
           <Bars

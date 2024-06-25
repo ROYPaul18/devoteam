@@ -65,7 +65,7 @@ const CountrySelect = ({ className, onCountrySelect }) => {
   return (
     <div className="relative w-full flex justify-center items-center">
   <div
-    className={`flex justify-between center items-center my-auto px-4 py-2 cursor-pointer w-full ${className}`}
+    className={`flex justify-between center items-center my-auto p-2 cursor-pointer w-full ${className}`}
     onClick={toggleDropdown}
   >
     <div className="flex items-center">
@@ -107,7 +107,7 @@ const CountrySelect = ({ className, onCountrySelect }) => {
             alt={country.name.common}
             className="w-12 h-12 object-cover rounded-full"
           />
-          <span className="ml-2 text-xl md:text-2xl">{country.name.common}</span> {/* Réduction de la taille de police pour md */}
+          <span className="ml-2 text-xl md:text-2xl">{country.name.common}</span> 
         </li>
       ))}
     </ul>

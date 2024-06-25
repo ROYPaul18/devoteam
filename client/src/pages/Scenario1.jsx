@@ -32,7 +32,7 @@ const Scenario1 = () => {
 
   return (
     <div className="bg-primary h-screen ">
-      <div className="px-16 lg:px-8 py-2 gap-2 sm:gap-4 md:gap-8 min-h-screen">
+      <div className="2xl:px-16 px-8 py-2 gap-2 sm:gap-4 md:gap-8 min-h-screen">
         <div className="">
           <Filter
             onGenderSelect={handleGenderSelect}
