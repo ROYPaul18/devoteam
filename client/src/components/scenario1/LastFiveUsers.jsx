@@ -19,7 +19,7 @@ function LastFiveUsers() {
 
   return (
     <div className="flex-col justify-between">
-      <h2 className="text-secondary text-xl mb-8 text-center">
+      <h2 className="text-secondary text-base 2xl:text-xl mb-1 2xl:mb-8 text-center">
         Caractéristiques des 5 dernières  démissions
       </h2>
       {loading ? (

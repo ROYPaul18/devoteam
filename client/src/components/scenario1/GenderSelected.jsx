@@ -19,7 +19,7 @@ const GenderSelected = ({ onGenderSelect, onFilterChange }) => {
   };
 
   return (
-    <div className="bg-white text-secondary h-28 rounded-xl p-2 flex items-center justify-around w-68 xl:w-52 lg:w-52 shadow-xl">
+    <>
       {gender === '' ? (
         <div className="flex items-center gap-6 w-54 xl:w-54 mx-auto">
           <button onClick={() => handleGenderClick("Male")}>
@@ -37,7 +37,7 @@ const GenderSelected = ({ onGenderSelect, onFilterChange }) => {
           </button>
         </div>
       )}
-    </div>
+    </>
   );
 };
 

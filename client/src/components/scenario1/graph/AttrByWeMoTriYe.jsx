@@ -39,7 +39,7 @@ const AttritionChart = () => {
         const response = await axios.get(`http://localhost:3001/api/attrition/${period}`, {
           params: { year }
         });
-        console.log('API Response:', response.data); // Log the API response
+      
         setData(response.data);
       } catch (error) {
         console.error('Error fetching attrition data:', error);
@@ -81,7 +81,6 @@ const AttritionChart = () => {
     }
   };
 
-  console.log('Chart Data:', chartData); 
 
   return (
     <div className="relative w-11/12 h-3/4"> 
@@ -99,20 +98,20 @@ const AttritionChart = () => {
           />
         </div>
       )}
-      <h2 className='mb-1 text-secondary text-xl'>Histograms du nombre d'attrition par mois, trimestre année</h2>
+      <h2 className='mb-1 text-secondary text-md 2xl:text-xl 2xl:mb-4'>Taux d'attrition par mois, trimestre année</h2>
       <div className='flex justify-between'> 
-        <select className='border-4 border-secondary rounded p-1 text-secondary' value={period} onChange={(e) => setPeriod(e.target.value)}>
+        <select className='border-4 border-secondary rounded 2xl:p-1 text-secondary' value={period} onChange={(e) => setPeriod(e.target.value)}>
           <option value="annual">Annuel</option>
           <option value="quarterly">Trimestriel</option>
           <option value="monthly">Mensuel</option>
         </select>
-        <select value={year} onChange={(e) => setYear(e.target.value)} className='border-4 border-secondary rounded p-1 text-secondary'>
+        <select value={year} onChange={(e) => setYear(e.target.value)} className='border-4 border-secondary rounded 2xl:p-1 text-secondary'>
           {Array.from({ length: 20 }, (_, i) => 2006 + i).map(year => (
             <option key={year} value={year}>{year}</option>
           ))}
         </select>
       </div>
-      <div className={`w-full h-full ${loading ? 'opacity-50' : ''}`}>
+      <div className={`w-full h-full ${loading ? 'opacity-50' : ''} flex justify-center`}>
         <Bar data={chartData} options={chartOptions} />
       </div>
     </div>

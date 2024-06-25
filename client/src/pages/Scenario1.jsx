@@ -1,12 +1,9 @@
 import React, { useState, useEffect } from "react";
 import Filter from "./../components/scenario1/Filter";
 import ListInfo from "../components/scenario1/ListInfo";
-import BarChart from "../components/scenario1/graph/BarChart";
 import ChartModal from "../components/scenario1/ChartModal";
 import LastFiveUsers from "../components/scenario1/LastFiveUsers";
-import LineGraph from "../components/scenario1/graph/LineGraph";
 import AttrCountryGraph from "../components/scenario1/graph/AttrCountryGraph";
-import AttrJobGraph from "../components/scenario1/graph/AttrJobGraph";
 import AttrByWeMoTriYe from "../components/scenario1/graph/AttrByWeMoTriYe";
 import AgeGroupBarChart from "../components/scenario1/graph/AgeGroupBarChart";
 import AttrGenderGraph from "../components/scenario1/graph/AttrGenderGraph";
@@ -34,20 +31,20 @@ const Scenario1 = () => {
   };
 
   return (
-    <div className="bg-primary ">
-      <div className="px-16 lg:px-8 py-2 gap-20 md:gap-1 min-h-screen">
+    <div className="bg-primary h-screen ">
+      <div className="px-16 lg:px-8 py-2 gap-2 sm:gap-4 md:gap-8 min-h-screen">
         <div className="">
           <Filter
             onGenderSelect={handleGenderSelect}
             selectedGender={selectedGender}
           />
         </div>
-        <div id="1 " className="flex mt-4 xl:mt-12 max-h-[80vh] w-full">
+        <div id="1 " className="flex 2xl:mt-12 mt-8 max-h-[80vh] w-full pb-4">
           {/* Left Part */}
           <ListInfo />
           {/* Right Part */}
-          <div className="ml-20 flex w-full gap-x-16">
-            <div className="flex flex-col h-full gap-10 w-2/4">
+          <div className="ml-20 md:ml-8 flex w-full gap-x-16">
+            <div className="flex flex-col h-full gap-10 w-2/4 md:w-1/2">
               <div className="bg-white h-[37vh] rounded-3xl flex-cols items-center justify-center font-black shadow-xl p-4">
                 <AttrCountryGraph onClick={() => handleChartClick(countryData, countryOptions)}/>
               </div>
@@ -69,7 +66,7 @@ const Scenario1 = () => {
                 />
               </div>
               <div className="bg-white flex-1 rounded-3xl flex flex-col items-center justify-center font-black shadow-xl pt-2">
-                <h1 className="text-secondary text-xl mb-12">Taux d’attrition/job</h1>
+                <h1 className="text-secondary text-xl mb-4">Taux d’attrition/job</h1>
                 <AttrPartnerGraph />
               </div>
             </div>

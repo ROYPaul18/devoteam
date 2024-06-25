@@ -28,8 +28,14 @@ export default {
           100: "#FDF1EB",
           200: "#FFA87D",
         },
+      },
+      screens: {
+        'sm': '640px',
+        'md': '768px',
+        'lg': '1024px',
+        'xl': '1280px',
+        '2xl': '1536px',
       }
-      
     },
   },
   plugins: [],

@@ -44,9 +44,9 @@ const AgeGroupBarChart = () => {
   };
 
   return (
-    <div className="relative hover:cursor-pointer w-96 h-full"> {/* Conteneur avec position relative */}
-      {loading && ( // Afficher le loader si les données sont en cours de chargement
-        <div className="absolute inset-0 flex justify-center items-center bg-white bg-opacity-75 z-10">
+    <div className="relative w-72 2xl:w-96 h-full">
+      {loading && (
+        <div className="absolute inset-0 flex justify-center items-center bg-white bg-opacity-75 z-10 rounded-3xl">
           <Bars
             height={80}
             width={80}

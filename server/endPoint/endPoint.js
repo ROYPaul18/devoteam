@@ -12,7 +12,6 @@ const axios = require("axios");
 
 router.post('/api/filterValue', (req, res) => {
   const filters = req.body;
-  console.log("Received filters: ", filters);  
   filterService.setFilteredData(filters);
   const filteredData = filterService.getFilteredData();
   res.json(filteredData);
@@ -20,15 +19,13 @@ router.post('/api/filterValue', (req, res) => {
 
 router.get('/api/getFilteredData', (req, res) => {
   const filteredData = filterService.getFilteredData();
-  console.log(filteredData);
   res.json(filteredData);
 });
 
 router.get('/api/last_five_end_dates', (req, res) => {
   axios.get('http://localhost:3001/api/getFilteredData')
     .then(response => {
-      const filteredData = response.data;
-      
+      const filteredData = response.data; 
       const lastFiveEndDates = getLastFiveEndDates(filteredData);
       res.json(lastFiveEndDates);
     })
@@ -52,10 +49,26 @@ router.get('/api/count_objects', (req, res) => {
 });
 
 router.get('/api/attrition_rate', (req, res) => {
-  const countResult = countObjectsWithEndDate(attritionCalculatorTranslatedData);
-  const attrResult = calcAttrition(countResult.totalObjects, countResult.objectsWithEndDateNotNull);
-  res.json({ tauxAttrition: attrResult });
+  axios.get('http://localhost:3001/api/getFilteredData')
+    .then(response => {
+      const filteredData = response.data;
+      
+      const startDate = req.query.start_date;
+      const endDate = req.query.end_date;
+      
+      console.log(`Received filters:`, req.query);
+      console.log(`Calculating attrition from ${startDate} to ${endDate}`);
+
+      const attritionRate = calcAttrition(startDate, endDate, filteredData);
+      res.json({ tauxAttrition: attritionRate });
+    })
+    .catch(error => {
+      console.error('Error fetching filtered data:', error);
+      res.status(500).json({ message: 'Une erreur s\'est produite' });
+    });
 });
+
+
 
 router.get('/api/attrition_rate_male_female', (req, res) => {
   axios

@@ -15,7 +15,7 @@ const AttrCountryGraph = () => {
     datasets: [],
   });
   const [showModal, setShowModal] = useState(false);
-  const [loading, setLoading] = useState(true); // État de chargement
+  const [loading, setLoading] = useState(true);
   const chartRefModal = useRef(null);
 
   useEffect(() => {
@@ -147,11 +147,11 @@ const AttrCountryGraph = () => {
           />
         </div>
       )}
-      <h1 className="mb-4 text-secondary text-xl">
+      <h1 className="mb-2 text-secondary text-md 2xl:text-xl 2xl:mb-4">
         Taux d’attrition par départements, pays
       </h1>
       <select
-        className="border-4 border-secondary rounded p-1 text-secondary"
+        className="border-4 border-secondary rounded 2xl:p-1 text-secondary text-base 2xl:text-lg"
         value={selectedOption}
         onChange={(e) => setSelectedOption(e.target.value)}
       >

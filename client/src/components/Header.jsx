@@ -45,7 +45,7 @@ const Header = () => {
           <select
             value={scenarioPath}
             onChange={handleScenarioChange}
-            className="appearance-none text-secondary text-3xl font-black bg-transparent pr-4 pl-2 py-2 bg-white border border-gray-300 rounded-md shadow-sm"
+            className="appearance-none text-secondary text-lg lg:text-xl md:text-3xl font-black bg-transparent pr-2 pl-1 py-1 md:pr-4 md:pl-2 md:py-2 bg-white border border-gray-300 rounded-md shadow-sm"
           >
               <option value="/">Home</option>
             <option value="/scenario_un">Taux d'attrition </option>

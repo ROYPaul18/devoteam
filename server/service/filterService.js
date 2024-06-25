@@ -8,9 +8,7 @@ const dataPath = path.join(__dirname, '../data/data_v4.json');
 const data = JSON.parse(fs.readFileSync(dataPath, 'utf-8'));
 
 function setFilteredData(filters) {
-  // Appliquer les filtres aux données
   filteredData = filterData(filters, data);
- 
 }
 
 function getFilteredData() {

@@ -13,7 +13,6 @@ async function fetchFilteredData() {
     return {};
   }
 }
-
 // Route pour obtenir les taux d'attrition annuels
 router.get('/annual', async (req, res) => {
   try {
@@ -22,7 +21,7 @@ router.get('/annual', async (req, res) => {
     res.json(annualRates);
   } catch (error) {
     console.error("Error in /annual route:", error);
-    res.status(500).json({ message: 'Une erreur s\'est produite' });
+    res.status(500).json();
   }
 });
 
@@ -34,7 +33,7 @@ router.get('/quarterly', async (req, res) => {
     const quarterlyRates = getQuarterlyAttritionRates(data).filter(rate => rate.year == year);
     res.json(quarterlyRates);
   } catch (error) {
-    res.status(500).json({ message: 'Une erreur s\'est produite' });
+    res.status(500).json();
   }
 });
 
@@ -47,7 +46,7 @@ router.get('/monthly', async (req, res) => {
     res.json(monthlyRates);
   } catch (error) {
     console.error("Error in /monthly route:", error);
-    res.status(500).json({ message: 'Une erreur s\'est produite' });
+    res.status(500).json();
   }
 });
 
