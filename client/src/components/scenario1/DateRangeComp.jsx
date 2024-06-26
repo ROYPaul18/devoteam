@@ -67,9 +67,9 @@ const DateRangeComp = ({ onDateRangeChange }) => {
       <input
         value={`${format(range[0].startDate, 'yyyy-MM-dd')} / ${format(range[0].endDate, 'yyyy-MM-dd')}`}
         readOnly
-        className="font-bold text-xl bg-secondary text-white text-start rounded-md p-4 w-full md:w-auto"
+        className="font-bold text-sm md:text-base lg:texte-lg 2xl:text-xl bg-secondary text-white text-start rounded-md p-4 w-full md:w-auto"
         onClick={() => setOpen((open) => !open)}
-        style={{ padding: '16px 24px', width: '100%' }} 
+        style={{ padding: '16px 2px', width: '100%', textAlign: 'center' }} 
       />
       <div ref={refOne}>
         {open && (
@@ -80,7 +80,7 @@ const DateRangeComp = ({ onDateRangeChange }) => {
             ranges={range}
             months={1}
             direction="horizontal"
-            className="calendarElement w-full"
+            className="calendarElement w-96"
             rangeColors={['#f33e5b', '#3ecf8e', '#fed14c']}
             minDate={initialStartDate}
             maxDate={currentDate}

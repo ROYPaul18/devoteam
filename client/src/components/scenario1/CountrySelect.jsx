@@ -64,55 +64,55 @@ const CountrySelect = ({ className, onCountrySelect }) => {
 
   return (
     <div className="relative w-full flex justify-center items-center">
-  <div
-    className={`flex justify-between center items-center my-auto p-2 cursor-pointer w-full ${className}`}
-    onClick={toggleDropdown}
-  >
-    <div className="flex items-center">
-      <img
-        src={selectedOption?.flags.svg}
-        alt={selectedOption?.name.common}
-        className="w-12 h-12 rounded-full object-cover"
-      />
-      <span className="ml-2 text-3xl md:text-2xl text-secondary"> 
-        {selectedOption?.name.common}
-      </span>
-    </div>
-    
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      fill="none"
-      viewBox="0 0 24 24"
-      strokeWidth={3}
-      stroke="currentColor"
-      className="w-6 h-6 text-secondary"
-    >
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        d="M19.5 13.5 12 21m0 0-7.5-7.5M12 21V3"
-      />
-    </svg>
-  </div>
-  {isOpen && (
-    <ul className="absolute z-50 mt-1 bg-white border border-gray-300 rounded-md shadow-lg max-h-72 overflow-y-auto w-full left-0 right-0 top-full">
-      {countries.map((country, index) => (
-        <li
-          key={country.cca3 || index}
-          className="flex items-center px-2 py-2 cursor-pointer hover:bg-gray-100 w-full"
-          onClick={() => handleCountrySelect(country)}
-        >
+      <div
+        className={`flex justify-between items-center my-auto p-2 cursor-pointer w-full ${className}`}
+        onClick={toggleDropdown}
+      >
+        <div className="flex items-center flex-grow min-w-0">
           <img
-            src={country.flags.svg}
-            alt={country.name.common}
-            className="w-12 h-12 object-cover rounded-full"
+            src={selectedOption?.flags.svg}
+            alt={selectedOption?.name.common}
+            className="w-12 h-12 rounded-full object-cover flex-shrink-0"
           />
-          <span className="ml-2 text-xl md:text-2xl">{country.name.common}</span> 
-        </li>
-      ))}
-    </ul>
-  )}
-</div>
+          <span className="ml-2 text-3xl md:text-2xl text-secondary truncate"> 
+            {selectedOption?.name.common}
+          </span>
+        </div>
+        
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          strokeWidth={3}
+          stroke="currentColor"
+          className="w-6 h-6 text-secondary flex-shrink-0 ml-2"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M19.5 13.5 12 21m0 0-7.5-7.5M12 21V3"
+          />
+        </svg>
+      </div>
+      {isOpen && (
+        <ul className="absolute z-50 mt-1 bg-white border border-gray-300 rounded-md shadow-lg max-h-72 overflow-y-auto w-full left-0 right-0 top-full">
+          {countries.map((country, index) => (
+            <li
+              key={country.cca3 || index}
+              className="flex items-center px-2 py-2 cursor-pointer hover:bg-gray-100 w-full"
+              onClick={() => handleCountrySelect(country)}
+            >
+              <img
+                src={country.flags.svg}
+                alt={country.name.common}
+                className="w-12 h-12 object-cover rounded-full flex-shrink-0"
+              />
+              <span className="ml-2 text-xl md:text-2xl truncate">{country.name.common}</span> 
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
   );
 };
 

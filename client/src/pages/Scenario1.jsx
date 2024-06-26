@@ -32,7 +32,7 @@ const Scenario1 = () => {
 
   return (
     <div className="bg-primary h-screen ">
-      <div className="2xl:px-16 px-8 py-2 gap-2 sm:gap-4 md:gap-8 min-h-screen">
+      <div className="2xl:px-10 px-8 py-2 gap-2 sm:gap-4 md:gap-8 min-h-screen">
         <div className="">
           <Filter
             onGenderSelect={handleGenderSelect}
@@ -44,7 +44,7 @@ const Scenario1 = () => {
           <ListInfo />
           {/* Right Part */}
           <div className="ml-20 md:ml-8 flex w-full gap-x-16">
-            <div className="flex flex-col h-full gap-10 w-2/4 md:w-1/2">
+            <div className="flex flex-col h-full gap-10 w-3/5 2xl:w-2/4 md:w-1/2">
               <div className="bg-white h-[37vh] rounded-3xl flex-cols items-center justify-center font-black shadow-xl p-4">
                 <AttrCountryGraph onClick={() => handleChartClick(countryData, countryOptions)}/>
               </div>
@@ -54,19 +54,19 @@ const Scenario1 = () => {
             </div>
             <div className="flex flex-col gap-8 w-1/4 h-full justify-between">
               <div className="bg-white flex-1 rounded-3xl flex flex-col items-center justify-center font-black shadow-xl pt-2">
-                <h1 className="text-secondary text-xl mb-4">
+                <h1 className="text-secondary text-md 2xl:text-xl mb-4">
                   Taux d’attrition/Genre
                 </h1>
                 {selectedGender !== "Male" && selectedGender !== "Female" && ( <AttrGenderGraph />)}
               </div>
               <div className="bg-white flex-1 rounded-3xl flex flex-col items-center justify-center font-black shadow-xl pt-2">
-                <h1 className="text-secondary text-xl mb-4">Taux d’attrition/âge</h1>
+                <h1 className="text-secondary text-md 2xl:text-xl mb-4">Taux d’attrition/âge</h1>
                 <AgeGroupBarChart
                   onClick={() => handleChartClick(jobData, jobOptions)}
                 />
               </div>
               <div className="bg-white flex-1 rounded-3xl flex flex-col items-center justify-center font-black shadow-xl pt-2">
-                <h1 className="text-secondary text-xl mb-4">Taux d’attrition/job</h1>
+                <h1 className="text-secondary text-md 2xl:text-xl mb-4">Taux d’attrition/job</h1>
                 <AttrPartnerGraph />
               </div>
             </div>

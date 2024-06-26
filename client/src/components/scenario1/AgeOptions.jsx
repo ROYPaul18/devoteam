@@ -94,7 +94,7 @@ const AgeOptions = ({ onAgeRangesChange }) => {
     <>
       <button
         onClick={handleOpenModal}
-        className="age-filter-button bg-secondary text-white font-medium rounded-md w-full md:w-auto transition-all duration-300 text-small xl:text-2xl p-8 md:text-lg md:p-2"
+        className="age-filter-button bg-secondary text-white font-medium rounded-md w-full md:w-auto transition-all duration-300 p-8 md:p-2 text-sm md:text-base lg:texte-lg 2xl:text-xl"
       >
         Filtre les tranches d'âges
       </button>

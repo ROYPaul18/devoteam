@@ -121,22 +121,22 @@ const FilterOption = () => {
   };
 
   return (
-  <nav className="flex flex-col md:flex-row items-center justify-between gap-4 md:gap-6 w-full mt-4">
-    <div className="bg-white text-secondary w-full md:w-1/2 lg:w-1/4 h-20 md:h-24 rounded-xl p-2 flex items-center justify-center shadow-md">
+    <nav className="flex flex-col md:flex-row items-center justify-between gap-4 md:gap-6 w-full mt-2">
+    <div className="bg-white text-secondary w-full md:w-1/2 lg:w-1/4 h-16 md:h-20 2xl:h-24 rounded-xl p-2 flex items-center justify-center shadow-md">
       <DateRangeComp onDateRangeChange={handleDateRangeChange} />
     </div>
-    <div className="bg-white text-secondary w-full md:w-1/2 lg:w-1/4 h-20 md:h-24 rounded-xl p-2 shadow-xl flex items-center justify-center">
+    <div className="bg-white text-secondary w-full md:w-1/2 lg:w-1/4 h-16 md:h-20 2xl:h-24 rounded-xl p-2 shadow-xl flex items-center justify-center">
       <CountrySelect countries={countries} onCountrySelect={handleCountrySelect} />
     </div>
-    <div className="bg-white text-secondary w-full md:w-1/2 lg:w-1/4 h-20 md:h-24 rounded-xl p-2 flex justify-center items-center shadow-xl">
+    <div className="bg-white text-secondary w-full md:w-1/2 lg:w-1/4 h-16 md:h-20 2xl:h-24 rounded-xl p-2 flex justify-center items-center shadow-xl">
       <AgeOptions onAgeRangesChange={handleAgeRangesChange} />
     </div>
-    <div className="bg-white text-secondary w-full md:w-1/2 lg:w-1/4 h-20 md:h-24 rounded-xl p-2 flex justify-center items-center shadow-xl">
+    <div className="bg-white text-secondary w-full md:w-1/2 lg:w-1/4 h-16 md:h-20 2xl:h-24 rounded-xl p-2 flex justify-center items-center shadow-xl">
       <GenderSelected onGenderSelect={handleGenderSelect} onFilterChange={handleFilterChange} />
     </div>
     <div className="flex flex-col items-center 2xl:w-auto md:w-auto mt-4 md:mt-0">
-      <button className="bg-white text-secondary border border-secondary rounded-full mb-2 w-full md:w-48 h-10 text-sm md:text-md font-bold" onClick={handleResetAndSubmit}>Réinitialiser les filtres</button>
-      <button className="bg-secondary text-white rounded-full w-full md:w-48 h-10 text-sm md:text-md font-bold" onClick={() => handleFilterSubmit(filters)}>Envoyer les filtres</button>
+      <button className="bg-white text-secondary border border-secondary rounded-full mb-2 w-full md:w-48 h-8 md:h-10 text-sm md:text-md font-bold" onClick={handleResetAndSubmit}>Réinitialiser les filtres</button>
+      <button className="bg-secondary text-white rounded-full w-full md:w-48 h-8 md:h-10 text-sm md:text-md font-bold" onClick={() => handleFilterSubmit(filters)}>Envoyer les filtres</button>
     </div>  
   </nav>
 );
